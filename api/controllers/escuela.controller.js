@@ -63,36 +63,48 @@ exports.getById = async (req, res) => {
 // POST - Crear una nueva escuela
 exports.create = async (req, res) => {
   try {
-    const { nombre_escuela, direccion_escuela, numero_acuerdo } = req.body;
+    const data = req.body;
+    const escuelas = Array.isArray(data) ? data : [data];
     
-    if (!nombre_escuela || !direccion_escuela || !numero_acuerdo) {
-      return res.status(400).json({
-        success: false,
-        error: 'Todos los campos son requeridos'
+    // Validar que todas las escuelas tengan los campos requeridos
+    for (const esc of escuelas) {
+      if (!esc.id_escuela || !esc.nombre_escuela || !esc.direccion_escuela || !esc.numero_acuerdo) {
+        return res.status(400).json({
+          success: false,
+          error: 'Todos los campos son requeridos: id_escuela, nombre_escuela, direccion_escuela, numero_acuerdo'
+        });
+      }
+    }
+    
+    const insertedData = [];
+    
+    // Insertar cada escuela
+    for (const esc of escuelas) {
+      await db.execute(
+        `INSERT INTO escuela (id_escuela, nombre_escuela, direccion_escuela, numero_acuerdo) 
+         VALUES (:id_escuela, :nombre_escuela, :direccion_escuela, :numero_acuerdo)`,
+        {
+          id_escuela: esc.id_escuela,
+          nombre_escuela: esc.nombre_escuela,
+          direccion_escuela: esc.direccion_escuela,
+          numero_acuerdo: esc.numero_acuerdo
+        },
+        { autoCommit: true }
+      );
+      
+      insertedData.push({
+        id_escuela: esc.id_escuela,
+        nombre_escuela: esc.nombre_escuela,
+        direccion_escuela: esc.direccion_escuela,
+        numero_acuerdo: esc.numero_acuerdo
       });
     }
     
-    const result = await db.execute(
-      `INSERT INTO escuela (id_escuela, nombre_escuela, direccion_escuela, numero_acuerdo) 
-       VALUES (seq_escuela.NEXTVAL, :nombre_escuela, :direccion_escuela, :numero_acuerdo)
-       RETURNING id_escuela INTO :id`,
-      {
-        nombre_escuela,
-        direccion_escuela,
-        numero_acuerdo,
-        id: { dir: db.BIND_OUT, type: db.NUMBER }
-      }
-    );
-    
     res.status(201).json({
       success: true,
-      message: 'Escuela creada exitosamente',
-      data: {
-        id_escuela: result.outBinds.id[0],
-        nombre_escuela,
-        direccion_escuela,
-        numero_acuerdo
-      }
+      data: Array.isArray(data) ? insertedData : insertedData[0],
+      count: insertedData.length,
+      message: `${insertedData.length} escuela(s) creada(s) exitosamente`
     });
   } catch (error) {
     console.error('Error al crear escuela:', error);

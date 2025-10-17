@@ -43,23 +43,46 @@ exports.getById = async (req, res) => {
 
 exports.create = async (req, res) => {
   try {
-    const { fecha_correlativo, no_examen } = req.body;
+    const data = req.body;
+    const correlativos = Array.isArray(data) ? data : [data];
     
-    const result = await db.execute(
-      `INSERT INTO correlativo (id_correlativo, fecha_correlativo, no_examen) 
-       VALUES (seq_correlativo.NEXTVAL, TO_DATE(:fecha, 'YYYY-MM-DD'), :no_examen)
-       RETURNING id_correlativo INTO :id`,
-      {
-        fecha: fecha_correlativo,
-        no_examen: no_examen,
-        id: { dir: db.BIND_OUT, type: db.NUMBER }
-      },
-      { autoCommit: true }
-    );
+    // Validar que todos los correlativos tengan los campos requeridos
+    for (const corr of correlativos) {
+      if (!corr.id_correlativo || !corr.fecha_correlativo || !corr.no_examen) {
+        return res.status(400).json({
+          success: false,
+          error: 'Todos los campos son requeridos: id_correlativo, fecha_correlativo, no_examen'
+        });
+      }
+    }
+    
+    const insertedData = [];
+    
+    // Insertar cada correlativo
+    for (const corr of correlativos) {
+      await db.execute(
+        `INSERT INTO correlativo (id_correlativo, fecha_correlativo, no_examen) 
+         VALUES (:id_correlativo, TO_DATE(:fecha, 'YYYY-MM-DD'), :no_examen)`,
+        {
+          id_correlativo: corr.id_correlativo,
+          fecha: corr.fecha_correlativo,
+          no_examen: corr.no_examen
+        },
+        { autoCommit: true }
+      );
+      
+      insertedData.push({
+        id_correlativo: corr.id_correlativo,
+        fecha_correlativo: corr.fecha_correlativo,
+        no_examen: corr.no_examen
+      });
+    }
     
     res.status(201).json({
       success: true,
-      data: { id_correlativo: result.outBinds.id[0], fecha_correlativo, no_examen }
+      data: Array.isArray(data) ? insertedData : insertedData[0],
+      count: insertedData.length,
+      message: `${insertedData.length} correlativo(s) creado(s) exitosamente`
     });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });

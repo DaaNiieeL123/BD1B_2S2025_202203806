@@ -76,7 +76,7 @@ if [ $TRIES -eq $MAX_TRIES ]; then
 fi
 
 echo ""
-echo "� Creando usuario/schema de la aplicación..."
+echo " Creando usuario/schema de la aplicación..."
 
 # Crear usuario evaluacion_manejo si no existe
 docker exec -i oracle-evaluacion-manejo sqlplus -S system/OraclePassword123@XEPDB1 < database/create_schema.sql > /dev/null 2>&1
@@ -88,7 +88,7 @@ else
 fi
 
 echo ""
-echo "�🔍 Verificando estructura de base de datos..."
+echo "🔍 Verificando estructura de base de datos..."
 
 # Verificar si las tablas existen en el schema evaluacion_manejo
 TABLE_COUNT=$(docker exec oracle-evaluacion-manejo sqlplus -S evaluacion_manejo/EvaluacionPass123@XEPDB1 <<EOF

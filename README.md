@@ -140,7 +140,7 @@ respuesta_usuario → examen         [Muchos a Uno]
 | **🎯 TOTAL ENDPOINTS** | **78** | API REST completa |
 | **Controladores** | 16 | Lógica de negocio modular |
 | **Rutas** | 16 | Routing organizado |
-| **Documentación** | 5 guías | Manuales técnicos completos |
+| **Documentación** | 6 guías | Manuales técnicos completos |
 
 </div>
 
@@ -319,6 +319,7 @@ curl -X POST http://localhost:3000/api/centros \
 
 | 📖 Guía | 📝 Descripción | 🔗 Enlace |
 |:---:|:---:|:---:|
+| **Carga de Datos** | Guía para cargar datos via API con Postman (IDs manuales + arrays) | [GUIA_CARGA_DATOS.md](./docs/GUIA_CARGA_DATOS.md) |
 | **API Endpoints** | Referencia completa de los 78 endpoints con ejemplos | [GUIA_ENDPOINTS.md](./docs/GUIA_ENDPOINTS.md) |
 | **Testing & QA** | Pruebas con Postman, cURL y scripts de verificación | [GUIA_TESTING.md](./docs/GUIA_TESTING.md) |
 | **DBeaver Setup** | Conexión y administración de la base de datos | [GUIA_DBEAVER.md](./docs/GUIA_DBEAVER.md) |
@@ -365,7 +366,8 @@ BD1B_2S2025_proyecto/
 │   ├── datos_prueba.sql            # Datos de ejemplo para testing
 │   └── limpiar_datos.sql           # Script para limpiar datos
 │
-├── 📚 docs/                        # Documentación técnica (5 guías)
+├── 📚 docs/                        # Documentación técnica (6 guías)
+│   ├── GUIA_CARGA_DATOS.md         # Carga de datos vía API
 │   ├── GUIA_ENDPOINTS.md           # Referencia de 78 endpoints
 │   ├── GUIA_TESTING.md             # Manual de pruebas
 │   ├── GUIA_DBEAVER.md             # Configuración de DBeaver
@@ -588,7 +590,8 @@ docker-compose down -v && docker-compose up -d
 
 ## 📚 Recursos Adicionales
 
-- 📖 **[Documentación Completa de la API](./docs/GUIA_ENDPOINTS.md)** - Todos los endpoints con ejemplos
+-  **[Guía de Carga de Datos](./docs/GUIA_CARGA_DATOS.md)** - Cargar datos via API con IDs manuales
+- �📖 **[Documentación Completa de la API](./docs/GUIA_ENDPOINTS.md)** - Todos los endpoints con ejemplos
 - 🧪 **[Guía de Testing](./docs/GUIA_TESTING.md)** - Cómo probar el sistema
 - 🏗️ **[Arquitectura del Sistema](./docs/ARQUITECTURA.md)** - Diseño y patrones
 - 🔧 **[Solución de Problemas](./docs/TROUBLESHOOTING.md)** - Errores comunes

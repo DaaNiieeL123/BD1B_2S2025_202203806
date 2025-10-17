@@ -43,18 +43,41 @@ exports.getById = async (req, res) => {
 
 exports.create = async (req, res) => {
   try {
-    const { tipo_licencia, descripcion_licencia } = req.body;
+    const data = req.body;
+    const tipos = Array.isArray(data) ? data : [data];
     
-    await db.execute(
-      `INSERT INTO tipo_licencia (tipo_licencia, descripcion_licencia) 
-       VALUES (:tipo, :descripcion)`,
-      { tipo: tipo_licencia, descripcion: descripcion_licencia },
-      { autoCommit: true }
-    );
+    // Validar que todos los tipos tengan los campos requeridos
+    for (const tipo of tipos) {
+      if (!tipo.tipo_licencia || !tipo.descripcion_licencia) {
+        return res.status(400).json({
+          success: false,
+          error: 'Todos los campos son requeridos: tipo_licencia, descripcion_licencia'
+        });
+      }
+    }
+    
+    const insertedData = [];
+    
+    // Insertar cada tipo de licencia
+    for (const tipo of tipos) {
+      await db.execute(
+        `INSERT INTO tipo_licencia (tipo_licencia, descripcion_licencia) 
+         VALUES (:tipo, :descripcion)`,
+        { tipo: tipo.tipo_licencia, descripcion: tipo.descripcion_licencia },
+        { autoCommit: true }
+      );
+      
+      insertedData.push({
+        tipo_licencia: tipo.tipo_licencia,
+        descripcion_licencia: tipo.descripcion_licencia
+      });
+    }
     
     res.status(201).json({
       success: true,
-      data: { tipo_licencia, descripcion_licencia }
+      data: Array.isArray(data) ? insertedData : insertedData[0],
+      count: insertedData.length,
+      message: `${insertedData.length} tipo(s) de licencia creado(s) exitosamente`
     });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });

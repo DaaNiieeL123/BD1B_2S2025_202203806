@@ -43,18 +43,41 @@ exports.getById = async (req, res) => {
 
 exports.create = async (req, res) => {
   try {
-    const { genero, descripcion_genero } = req.body;
+    const data = req.body;
+    const generos = Array.isArray(data) ? data : [data];
     
-    await db.execute(
-      `INSERT INTO genero_catalogo (genero, descripcion_genero) 
-       VALUES (:genero, :descripcion)`,
-      { genero, descripcion: descripcion_genero },
-      { autoCommit: true }
-    );
+    // Validar que todos los géneros tengan los campos requeridos
+    for (const gen of generos) {
+      if (!gen.genero || !gen.descripcion_genero) {
+        return res.status(400).json({
+          success: false,
+          error: 'Todos los campos son requeridos: genero, descripcion_genero'
+        });
+      }
+    }
+    
+    const insertedData = [];
+    
+    // Insertar cada género
+    for (const gen of generos) {
+      await db.execute(
+        `INSERT INTO genero_catalogo (genero, descripcion_genero) 
+         VALUES (:genero, :descripcion)`,
+        { genero: gen.genero, descripcion: gen.descripcion_genero },
+        { autoCommit: true }
+      );
+      
+      insertedData.push({
+        genero: gen.genero,
+        descripcion_genero: gen.descripcion_genero
+      });
+    }
     
     res.status(201).json({
       success: true,
-      data: { genero, descripcion_genero }
+      data: Array.isArray(data) ? insertedData : insertedData[0],
+      count: insertedData.length,
+      message: `${insertedData.length} género(s) creado(s) exitosamente`
     });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });

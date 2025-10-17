@@ -40,23 +40,48 @@ exports.getById = async (req, res) => {
 
 exports.create = async (req, res) => {
   try {
-    const { id_departamento, nombre_municipio, codigo_municipio } = req.body;
+    const data = req.body;
+    const municipios = Array.isArray(data) ? data : [data];
     
-    const result = await db.execute(
-      `INSERT INTO municipio (id_municipio, id_departamento, nombre_municipio, codigo_municipio) 
-       VALUES (seq_municipio.NEXTVAL, :id_dep, :nombre, :codigo)
-       RETURNING id_municipio INTO :id`,
-      {
-        id_dep: id_departamento,
-        nombre: nombre_municipio,
-        codigo: codigo_municipio,
-        id: { dir: db.BIND_OUT, type: db.NUMBER }
+    // Validar que todos los municipios tengan los campos requeridos
+    for (const muni of municipios) {
+      if (!muni.id_municipio || !muni.id_departamento || !muni.nombre_municipio || !muni.codigo_municipio) {
+        return res.status(400).json({
+          success: false,
+          error: 'Todos los campos son requeridos: id_municipio, id_departamento, nombre_municipio, codigo_municipio'
+        });
       }
-    );
+    }
+    
+    const insertedData = [];
+    
+    // Insertar cada municipio
+    for (const muni of municipios) {
+      await db.execute(
+        `INSERT INTO municipio (id_municipio, id_departamento, nombre_municipio, codigo_municipio) 
+         VALUES (:id_municipio, :id_departamento, :nombre_municipio, :codigo_municipio)`,
+        {
+          id_municipio: muni.id_municipio,
+          id_departamento: muni.id_departamento,
+          nombre_municipio: muni.nombre_municipio,
+          codigo_municipio: muni.codigo_municipio
+        },
+        { autoCommit: true }
+      );
+      
+      insertedData.push({
+        id_municipio: muni.id_municipio,
+        id_departamento: muni.id_departamento,
+        nombre_municipio: muni.nombre_municipio,
+        codigo_municipio: muni.codigo_municipio
+      });
+    }
     
     res.status(201).json({
       success: true,
-      data: { id_municipio: result.outBinds.id[0], id_departamento, nombre_municipio, codigo_municipio }
+      data: Array.isArray(data) ? insertedData : insertedData[0],
+      count: insertedData.length,
+      message: `${insertedData.length} municipio(s) creado(s) exitosamente`
     });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });

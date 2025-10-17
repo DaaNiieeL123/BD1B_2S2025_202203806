@@ -42,22 +42,48 @@ exports.getById = async (req, res) => {
 
 exports.create = async (req, res) => {
   try {
-    const { nombre_departamento, codigo_departamento } = req.body;
+    const data = req.body;
     
-    const result = await db.execute(
-      `INSERT INTO departamento (id_departamento, nombre_departamento, codigo_departamento) 
-       VALUES (seq_departamento.NEXTVAL, :nombre, :codigo)
-       RETURNING id_departamento INTO :id`,
-      {
-        nombre: nombre_departamento,
-        codigo: codigo_departamento,
-        id: { dir: db.BIND_OUT, type: db.NUMBER }
+    // Verificar si es un array o un objeto individual
+    const departamentos = Array.isArray(data) ? data : [data];
+    
+    // Validar que todos los registros tengan los campos requeridos
+    for (const dept of departamentos) {
+      if (!dept.id_departamento || !dept.nombre_departamento || !dept.codigo_departamento) {
+        return res.status(400).json({ 
+          success: false, 
+          error: 'Todos los campos son requeridos: id_departamento, nombre_departamento, codigo_departamento' 
+        });
       }
-    );
+    }
+    
+    const insertedData = [];
+    
+    // Insertar cada departamento
+    for (const dept of departamentos) {
+      await db.execute(
+        `INSERT INTO departamento (id_departamento, nombre_departamento, codigo_departamento) 
+         VALUES (:id, :nombre, :codigo)`,
+        {
+          id: dept.id_departamento,
+          nombre: dept.nombre_departamento,
+          codigo: dept.codigo_departamento
+        },
+        { autoCommit: true }
+      );
+      
+      insertedData.push({
+        id_departamento: dept.id_departamento,
+        nombre_departamento: dept.nombre_departamento,
+        codigo_departamento: dept.codigo_departamento
+      });
+    }
     
     res.status(201).json({
       success: true,
-      data: { id_departamento: result.outBinds.id[0], nombre_departamento, codigo_departamento }
+      data: Array.isArray(data) ? insertedData : insertedData[0],
+      count: insertedData.length,
+      message: `${insertedData.length} departamento(s) creado(s) exitosamente`
     });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });

@@ -36,30 +36,46 @@ exports.getById = async (req, res) => {
 
 exports.create = async (req, res) => {
   try {
-    const { pregunta_texto, punteo_maximo = 10 } = req.body;
+    const data = req.body;
+    const preguntas = Array.isArray(data) ? data : [data];
     
-    if (!pregunta_texto) {
-      return res.status(400).json({ success: false, error: 'El texto de la pregunta es requerido' });
+    // Validar que todas las preguntas tengan los campos requeridos
+    for (const preg of preguntas) {
+      if (!preg.id_pregunta_practico || !preg.titulo_pregunta || !preg.descripcion_pregunta) {
+        return res.status(400).json({
+          success: false,
+          error: 'Todos los campos son requeridos: id_pregunta_practico, titulo_pregunta, descripcion_pregunta'
+        });
+      }
     }
     
-    const result = await db.execute(
-      `INSERT INTO pregunta_practico (id_pregunta_practico, pregunta_texto, punteo_maximo) 
-       VALUES (seq_pregunta_practico.NEXTVAL, :texto, :punteo)
-       RETURNING id_pregunta_practico INTO :id`,
-      {
-        texto: pregunta_texto,
-        punteo: punteo_maximo,
-        id: { dir: db.BIND_OUT, type: db.NUMBER }
-      }
-    );
+    const insertedData = [];
+    
+    // Insertar cada pregunta práctica
+    for (const preg of preguntas) {
+      await db.execute(
+        `INSERT INTO pregunta_practico (id_pregunta_practico, titulo_pregunta, descripcion_pregunta) 
+         VALUES (:id_pregunta_practico, :titulo, :descripcion)`,
+        {
+          id_pregunta_practico: preg.id_pregunta_practico,
+          titulo: preg.titulo_pregunta,
+          descripcion: preg.descripcion_pregunta
+        },
+        { autoCommit: true }
+      );
+      
+      insertedData.push({
+        id_pregunta_practico: preg.id_pregunta_practico,
+        titulo_pregunta: preg.titulo_pregunta,
+        descripcion_pregunta: preg.descripcion_pregunta
+      });
+    }
     
     res.status(201).json({
       success: true,
-      data: {
-        id_pregunta_practico: result.outBinds.id[0],
-        pregunta_texto,
-        punteo_maximo
-      }
+      data: Array.isArray(data) ? insertedData : insertedData[0],
+      count: insertedData.length,
+      message: `${insertedData.length} pregunta(s) práctica(s) creada(s) exitosamente`
     });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });

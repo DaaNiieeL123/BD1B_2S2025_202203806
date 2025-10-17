@@ -42,39 +42,56 @@ exports.getById = async (req, res) => {
 
 exports.create = async (req, res) => {
   try {
-    const { pregunta_texto, respuesta_correcta, opcion_1, opcion_2, opcion_3, opcion_4 } = req.body;
+    const data = req.body;
+    const preguntas = Array.isArray(data) ? data : [data];
     
-    if (!pregunta_texto || !respuesta_correcta || !opcion_1 || !opcion_2 || !opcion_3 || !opcion_4) {
-      return res.status(400).json({ success: false, error: 'Todos los campos son requeridos' });
+    // Validar que todas las preguntas tengan los campos requeridos
+    for (const preg of preguntas) {
+      if (!preg.id_pregunta || !preg.texto_pregunta || !preg.respuesta_correcta || 
+          !preg.opcion_1 || !preg.opcion_2 || !preg.opcion_3 || !preg.opcion_4) {
+        return res.status(400).json({
+          success: false,
+          error: 'Todos los campos son requeridos: id_pregunta, texto_pregunta, respuesta_correcta, opcion_1, opcion_2, opcion_3, opcion_4'
+        });
+      }
     }
     
-    const result = await db.execute(
-      `INSERT INTO pregunta 
-       (id_pregunta, pregunta_texto, respuesta_correcta, opcion_1, opcion_2, opcion_3, opcion_4) 
-       VALUES (seq_pregunta.NEXTVAL, :texto, :correcta, :op1, :op2, :op3, :op4)
-       RETURNING id_pregunta INTO :id`,
-      {
-        texto: pregunta_texto,
-        correcta: respuesta_correcta,
-        op1: opcion_1,
-        op2: opcion_2,
-        op3: opcion_3,
-        op4: opcion_4,
-        id: { dir: db.BIND_OUT, type: db.NUMBER }
-      }
-    );
+    const insertedData = [];
+    
+    // Insertar cada pregunta
+    for (const preg of preguntas) {
+      await db.execute(
+        `INSERT INTO pregunta 
+         (id_pregunta, texto_pregunta, respuesta_correcta, opcion_1, opcion_2, opcion_3, opcion_4) 
+         VALUES (:id_pregunta, :texto, :correcta, :op1, :op2, :op3, :op4)`,
+        {
+          id_pregunta: preg.id_pregunta,
+          texto: preg.texto_pregunta,
+          correcta: preg.respuesta_correcta,
+          op1: preg.opcion_1,
+          op2: preg.opcion_2,
+          op3: preg.opcion_3,
+          op4: preg.opcion_4
+        },
+        { autoCommit: true }
+      );
+      
+      insertedData.push({
+        id_pregunta: preg.id_pregunta,
+        texto_pregunta: preg.texto_pregunta,
+        respuesta_correcta: preg.respuesta_correcta,
+        opcion_1: preg.opcion_1,
+        opcion_2: preg.opcion_2,
+        opcion_3: preg.opcion_3,
+        opcion_4: preg.opcion_4
+      });
+    }
     
     res.status(201).json({
       success: true,
-      data: {
-        id_pregunta: result.outBinds.id[0],
-        pregunta_texto,
-        respuesta_correcta,
-        opcion_1,
-        opcion_2,
-        opcion_3,
-        opcion_4
-      }
+      data: Array.isArray(data) ? insertedData : insertedData[0],
+      count: insertedData.length,
+      message: `${insertedData.length} pregunta(s) creada(s) exitosamente`
     });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });

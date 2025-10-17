@@ -1,6 +1,6 @@
 {
   "info": {
-    "name": "Sistema Evaluación de Manejo - API REST v2.0",
+    "name": "Sistema Evaluación de Manejo - FASE 2",
     "description": "Colección COMPLETA con CRUD para las 15 tablas del modelo\n\n**Proyecto Fase 2 - Bases de Datos 1**\n\nIncluye:\n- CRUD completo para TODAS las 15 tablas\n- 3 Consultas SQL obligatorias\n- 1 Consulta SQL personalizada\n- 75+ endpoints totales",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
@@ -72,7 +72,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"nombre_centro\": \"Centro Evaluaci\\u00f3n Guatemala Norte\"\n}"
+              "raw": "{\n  \"id_centro\": 1,\n  \"nombre_centro\": \"Centro Evaluaci\\u00f3n Guatemala Norte\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/centros",
@@ -183,7 +183,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"nombre_escuela\": \"Escuela de Manejo Profesional\",\n  \"direccion_escuela\": \"Zona 10\"\n}"
+              "raw": "{\n  \"id_escuela\": 1,\n  \"nombre_escuela\": \"Escuela de Manejo Profesional\",\n  \"direccion_escuela\": \"Zona 10\",\n  \"numero_acuerdo\": \"ACUERDO-001-2024\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/escuelas",
@@ -294,7 +294,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"nombre_departamento\": \"Guatemala\",\n  \"codigo_departamento\": \"01\"\n}"
+              "raw": "{\n  \"id_departamento\": 1,\n  \"nombre_departamento\": \"Guatemala\",\n  \"codigo_departamento\": \"01\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/departamentos",
@@ -405,7 +405,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"nombre_municipio\": \"Guatemala\",\n  \"id_departamento\": 1\n}"
+              "raw": "{\n  \"id_municipio\": 1,\n  \"id_departamento\": 1,\n  \"nombre_municipio\": \"Guatemala\",\n  \"codigo_municipio\": \"01\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/municipios",
@@ -516,7 +516,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"texto_pregunta\": \"\\u00bfCu\\u00e1l es la velocidad m\\u00e1xima en zona urbana?\",\n  \"opcion_1\": \"40 km/h\",\n  \"opcion_2\": \"60 km/h\",\n  \"opcion_3\": \"80 km/h\",\n  \"opcion_4\": \"100 km/h\",\n  \"respuesta_correcta\": 2\n}"
+              "raw": "{\n  \"id_pregunta\": 1,\n  \"texto_pregunta\": \"\\u00bfCu\\u00e1l es la velocidad m\\u00e1xima en zona urbana?\",\n  \"opcion_1\": \"40 km/h\",\n  \"opcion_2\": \"60 km/h\",\n  \"opcion_3\": \"80 km/h\",\n  \"opcion_4\": \"100 km/h\",\n  \"respuesta_correcta\": 2\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/preguntas",
@@ -627,7 +627,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"titulo_pregunta\": \"Estacionamiento en Paralelo\",\n  \"descripcion_pregunta\": \"Estacionar el veh\\u00edculo en paralelo sin tocar bordillo\"\n}"
+              "raw": "{\n  \"id_pregunta_practico\": 1,\n  \"titulo_pregunta\": \"Estacionamiento en Paralelo\",\n  \"descripcion_pregunta\": \"Estacionar el veh\\u00edculo en paralelo sin tocar bordillo\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/preguntas-practicas",
@@ -738,7 +738,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"fecha_correlativo\": \"2024-10-16\",\n  \"no_examen\": 1\n}"
+              "raw": "{\n  \"id_correlativo\": 1,\n  \"fecha_correlativo\": \"2024-10-16\",\n  \"no_examen\": 1\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/correlativos",

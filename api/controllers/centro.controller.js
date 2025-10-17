@@ -63,32 +63,44 @@ exports.getById = async (req, res) => {
 // POST - Crear un nuevo centro
 exports.create = async (req, res) => {
   try {
-    const { nombre_centro } = req.body;
+    const data = req.body;
+    const centros = Array.isArray(data) ? data : [data];
     
-    if (!nombre_centro) {
-      return res.status(400).json({
-        success: false,
-        error: 'El nombre del centro es requerido'
+    // Validar que todos los centros tengan los campos requeridos
+    for (const centro of centros) {
+      if (!centro.id_centro || !centro.nombre_centro) {
+        return res.status(400).json({
+          success: false,
+          error: 'Todos los campos son requeridos: id_centro, nombre_centro'
+        });
+      }
+    }
+    
+    const insertedData = [];
+    
+    // Insertar cada centro
+    for (const centro of centros) {
+      await db.execute(
+        `INSERT INTO centro (id_centro, nombre_centro) 
+         VALUES (:id_centro, :nombre_centro)`,
+        {
+          id_centro: centro.id_centro,
+          nombre_centro: centro.nombre_centro
+        },
+        { autoCommit: true }
+      );
+      
+      insertedData.push({
+        id_centro: centro.id_centro,
+        nombre_centro: centro.nombre_centro
       });
     }
     
-    const result = await db.execute(
-      `INSERT INTO centro (id_centro, nombre_centro) 
-       VALUES (seq_centro.NEXTVAL, :nombre_centro)
-       RETURNING id_centro INTO :id`,
-      {
-        nombre_centro,
-        id: { dir: db.BIND_OUT, type: db.NUMBER }
-      }
-    );
-    
     res.status(201).json({
       success: true,
-      message: 'Centro creado exitosamente',
-      data: {
-        id_centro: result.outBinds.id[0],
-        nombre_centro
-      }
+      data: Array.isArray(data) ? insertedData : insertedData[0],
+      count: insertedData.length,
+      message: `${insertedData.length} centro(s) creado(s) exitosamente`
     });
   } catch (error) {
     console.error('Error al crear centro:', error);

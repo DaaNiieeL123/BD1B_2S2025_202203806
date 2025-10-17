@@ -43,18 +43,41 @@ exports.getById = async (req, res) => {
 
 exports.create = async (req, res) => {
   try {
-    const { tipo_tramite, descripcion_tramite } = req.body;
+    const data = req.body;
+    const tipos = Array.isArray(data) ? data : [data];
     
-    await db.execute(
-      `INSERT INTO tipo_tramite (tipo_tramite, descripcion_tramite) 
-       VALUES (:tipo, :descripcion)`,
-      { tipo: tipo_tramite, descripcion: descripcion_tramite },
-      { autoCommit: true }
-    );
+    // Validar que todos los tipos tengan los campos requeridos
+    for (const tipo of tipos) {
+      if (!tipo.tipo_tramite || !tipo.descripcion_tramite) {
+        return res.status(400).json({
+          success: false,
+          error: 'Todos los campos son requeridos: tipo_tramite, descripcion_tramite'
+        });
+      }
+    }
+    
+    const insertedData = [];
+    
+    // Insertar cada tipo de trámite
+    for (const tipo of tipos) {
+      await db.execute(
+        `INSERT INTO tipo_tramite (tipo_tramite, descripcion_tramite) 
+         VALUES (:tipo, :descripcion)`,
+        { tipo: tipo.tipo_tramite, descripcion: tipo.descripcion_tramite },
+        { autoCommit: true }
+      );
+      
+      insertedData.push({
+        tipo_tramite: tipo.tipo_tramite,
+        descripcion_tramite: tipo.descripcion_tramite
+      });
+    }
     
     res.status(201).json({
       success: true,
-      data: { tipo_tramite, descripcion_tramite }
+      data: Array.isArray(data) ? insertedData : insertedData[0],
+      count: insertedData.length,
+      message: `${insertedData.length} tipo(s) de trámite creado(s) exitosamente`
     });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
