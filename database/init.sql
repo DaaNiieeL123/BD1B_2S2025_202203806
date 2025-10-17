@@ -3,7 +3,14 @@
 -- Esquema DDL - Inicialización Automática
 -- ============================================
 -- Modelo Relacional completo de la Fase 1
+-- Schema: EVALUACION_MANEJO
 -- ============================================
+
+-- Conectar como el usuario de la aplicación
+-- Este script debe ejecutarse como: evaluacion_manejo/EvaluacionPass123
+
+-- Verificar usuario actual
+SELECT 'Creando tablas en schema: ' || USER AS info FROM dual;
 
 -- Eliminar tablas si existen (en orden inverso por dependencias)
 BEGIN

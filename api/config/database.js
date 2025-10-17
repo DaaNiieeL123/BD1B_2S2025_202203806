@@ -1,9 +1,15 @@
 const oracledb = require('oracledb');
 
+// Construir connection string desde variables de entorno individuales o usar default
+const host = process.env.DB_HOST || 'localhost';
+const port = process.env.DB_PORT || '1521';
+const serviceName = process.env.DB_SERVICE_NAME || 'XEPDB1';
+const connectionString = process.env.DB_CONNECTION_STRING || `${host}:${port}/${serviceName}`;
+
 const dbConfig = {
-  user: process.env.DB_USER || 'system',
-  password: process.env.DB_PASSWORD || 'OraclePassword123',
-  connectString: `${process.env.DB_HOST || 'localhost'}:${process.env.DB_PORT || '1521'}/${process.env.DB_SERVICE_NAME || 'XE'}`
+    user: process.env.DB_USER || 'evaluacion_manejo',
+    password: process.env.DB_PASSWORD || 'EvaluacionPass123',
+    connectString: connectionString
 };
 
 async function initialize() {

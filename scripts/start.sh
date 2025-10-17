@@ -5,6 +5,13 @@
 # Sistema de Centros de Evaluación de Manejo
 # ============================================
 
+# Obtener el directorio del script y cambiar al directorio raíz del proyecto
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
+
+# Cambiar al directorio del proyecto
+cd "$PROJECT_DIR" || exit 1
+
 echo "🚗 Sistema de Centros de Evaluación de Manejo"
 echo "=============================================="
 echo ""
@@ -53,7 +60,7 @@ MAX_TRIES=30
 TRIES=0
 
 while [ $TRIES -lt $MAX_TRIES ]; do
-    if docker exec oracle-evaluacion-manejo sqlplus -s evaluacion_manejo/EvaluacionPass123@XE <<< "SELECT 1 FROM DUAL;" > /dev/null 2>&1; then
+    if docker exec oracle-evaluacion-manejo sqlplus -s system/OraclePassword123@XEPDB1 <<< "SELECT 1 FROM DUAL;" > /dev/null 2>&1; then
         echo -e "${GREEN}✅ Oracle Database está listo${NC}"
         break
     fi
@@ -69,10 +76,22 @@ if [ $TRIES -eq $MAX_TRIES ]; then
 fi
 
 echo ""
-echo "🔍 Verificando estructura de base de datos..."
+echo "� Creando usuario/schema de la aplicación..."
 
-# Verificar si las tablas existen
-TABLE_COUNT=$(docker exec oracle-evaluacion-manejo sqlplus -S system/OraclePassword123@XE <<EOF
+# Crear usuario evaluacion_manejo si no existe
+docker exec -i oracle-evaluacion-manejo sqlplus -S system/OraclePassword123@XEPDB1 < database/create_schema.sql > /dev/null 2>&1
+
+if [ $? -eq 0 ]; then
+    echo -e "${GREEN}✅ Schema EVALUACION_MANEJO configurado${NC}"
+else
+    echo -e "${YELLOW}⚠️  Schema ya existe o hubo un error (continuando...)${NC}"
+fi
+
+echo ""
+echo "�🔍 Verificando estructura de base de datos..."
+
+# Verificar si las tablas existen en el schema evaluacion_manejo
+TABLE_COUNT=$(docker exec oracle-evaluacion-manejo sqlplus -S evaluacion_manejo/EvaluacionPass123@XEPDB1 <<EOF
 SET PAGESIZE 0 FEEDBACK OFF VERIFY OFF HEADING OFF ECHO OFF
 SELECT COUNT(*) FROM user_tables;
 EXIT;
@@ -90,17 +109,16 @@ if [ "$TABLE_COUNT" -lt 15 ]; then
     echo -e "${YELLOW}⚠️  Base de datos vacía o incompleta (tablas: $TABLE_COUNT/15)${NC}"
     echo "Ejecutando script de inicialización..."
     
-    cd ..
-    docker exec -i oracle-evaluacion-manejo sqlplus -S system/OraclePassword123@XE < database/init.sql > /dev/null 2>&1
+    docker exec -i oracle-evaluacion-manejo sqlplus -S evaluacion_manejo/EvaluacionPass123@XEPDB1 < database/init.sql > /dev/null 2>&1
     
     if [ $? -eq 0 ]; then
-        echo -e "${GREEN}✅ Tablas creadas exitosamente${NC}"
+        echo -e "${GREEN}✅ Tablas creadas exitosamente en schema EVALUACION_MANEJO${NC}"
     else
         echo -e "${RED}❌ Error al crear tablas${NC}"
-        echo "Revisa: docker exec -i oracle-evaluacion-manejo sqlplus system/OraclePassword123@XE < database/init.sql"
+        echo "Revisa: docker exec -i oracle-evaluacion-manejo sqlplus evaluacion_manejo/EvaluacionPass123@XEPDB1 < database/init.sql"
     fi
 else
-    echo -e "${GREEN}✅ Base de datos OK (15 tablas encontradas)${NC}"
+    echo -e "${GREEN}✅ Base de datos OK (15 tablas encontradas en EVALUACION_MANEJO)${NC}"
 fi
 
 echo ""
@@ -123,7 +141,7 @@ echo "📌 Servicios disponibles:"
 echo ""
 echo "  🌐 API REST:        http://localhost:3000"
 echo "  💚 Health Check:    http://localhost:3000/health"
-echo "  🗄️  Oracle DB:       localhost:1521/XE"
+echo "  🗄️  Oracle DB:       localhost:1521/XEPDB1"
 echo ""
 echo "📚 Endpoints principales:"
 echo ""
@@ -146,5 +164,10 @@ echo "💡 Importa la colección de Postman desde:"
 echo "   postman/Evaluacion_Manejo.postman_collection.json"
 echo ""
 echo "💾 Si necesitas datos de prueba, ejecuta:"
-echo "   docker exec -i oracle-evaluacion-manejo sqlplus system/OraclePassword123@XE < database/datos_prueba.sql"
+echo "   docker exec -i oracle-evaluacion-manejo sqlplus evaluacion_manejo/EvaluacionPass123@XEPDB1 < database/datos_prueba.sql"
+echo ""
+echo "🔧 Conectar a DBeaver:"
+echo "   Usuario: evaluacion_manejo"
+echo "   Password: EvaluacionPass123"
+echo "   Service: XEPDB1"
 echo ""

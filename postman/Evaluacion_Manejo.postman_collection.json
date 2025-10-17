@@ -1,0 +1,1744 @@
+{
+  "info": {
+    "name": "Sistema Evaluación de Manejo - API REST v2.0",
+    "description": "Colección COMPLETA con CRUD para las 15 tablas del modelo\n\n**Proyecto Fase 2 - Bases de Datos 1**\n\nIncluye:\n- CRUD completo para TODAS las 15 tablas\n- 3 Consultas SQL obligatorias\n- 1 Consulta SQL personalizada\n- 75+ endpoints totales",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/health",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "health"
+          ]
+        },
+        "description": "Verifica el estado del servidor y la conexión a la base de datos Oracle"
+      }
+    },
+    {
+      "name": "Centros",
+      "item": [
+        {
+          "name": "Listar Centros",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/centros",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "centros"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener Centro por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/centros/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "centros",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear Centro",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre_centro\": \"Centro Evaluaci\\u00f3n Guatemala Norte\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/centros",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "centros"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar Centro",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre_centro\": \"Centro Evaluaci\\u00f3n Guatemala Norte\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/centros/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "centros",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar Centro",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/centros/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "centros",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Escuelas",
+      "item": [
+        {
+          "name": "Listar Escuelas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/escuelas",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "escuelas"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener Escuela por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/escuelas/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "escuelas",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear Escuela",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre_escuela\": \"Escuela de Manejo Profesional\",\n  \"direccion_escuela\": \"Zona 10\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/escuelas",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "escuelas"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar Escuela",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre_escuela\": \"Escuela de Manejo Profesional\",\n  \"direccion_escuela\": \"Zona 10\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/escuelas/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "escuelas",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar Escuela",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/escuelas/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "escuelas",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Departamentos",
+      "item": [
+        {
+          "name": "Listar Departamentos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/departamentos",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "departamentos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener Departamento por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/departamentos/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "departamentos",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear Departamento",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre_departamento\": \"Guatemala\",\n  \"codigo_departamento\": \"01\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/departamentos",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "departamentos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar Departamento",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre_departamento\": \"Guatemala\",\n  \"codigo_departamento\": \"01\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/departamentos/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "departamentos",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar Departamento",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/departamentos/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "departamentos",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Municipios",
+      "item": [
+        {
+          "name": "Listar Municipios",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/municipios",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "municipios"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener Municipio por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/municipios/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "municipios",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear Municipio",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre_municipio\": \"Guatemala\",\n  \"id_departamento\": 1\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/municipios",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "municipios"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar Municipio",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre_municipio\": \"Guatemala\",\n  \"id_departamento\": 1\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/municipios/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "municipios",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar Municipio",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/municipios/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "municipios",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preguntas Teóricas",
+      "item": [
+        {
+          "name": "Listar Preguntas Teóricas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/preguntas",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "preguntas"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener Preguntas Teórica por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/preguntas/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "preguntas",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear Preguntas Teórica",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"texto_pregunta\": \"\\u00bfCu\\u00e1l es la velocidad m\\u00e1xima en zona urbana?\",\n  \"opcion_1\": \"40 km/h\",\n  \"opcion_2\": \"60 km/h\",\n  \"opcion_3\": \"80 km/h\",\n  \"opcion_4\": \"100 km/h\",\n  \"respuesta_correcta\": 2\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/preguntas",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "preguntas"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar Preguntas Teórica",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"texto_pregunta\": \"\\u00bfCu\\u00e1l es la velocidad m\\u00e1xima en zona urbana?\",\n  \"opcion_1\": \"40 km/h\",\n  \"opcion_2\": \"60 km/h\",\n  \"opcion_3\": \"80 km/h\",\n  \"opcion_4\": \"100 km/h\",\n  \"respuesta_correcta\": 2\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/preguntas/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "preguntas",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar Preguntas Teórica",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/preguntas/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "preguntas",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Preguntas Prácticas",
+      "item": [
+        {
+          "name": "Listar Preguntas Prácticas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/preguntas-practicas",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "preguntas-practicas"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener Preguntas Práctica por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/preguntas-practicas/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "preguntas-practicas",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear Preguntas Práctica",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo_pregunta\": \"Estacionamiento en Paralelo\",\n  \"descripcion_pregunta\": \"Estacionar el veh\\u00edculo en paralelo sin tocar bordillo\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/preguntas-practicas",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "preguntas-practicas"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar Preguntas Práctica",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo_pregunta\": \"Estacionamiento en Paralelo\",\n  \"descripcion_pregunta\": \"Estacionar el veh\\u00edculo en paralelo sin tocar bordillo\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/preguntas-practicas/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "preguntas-practicas",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar Preguntas Práctica",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/preguntas-practicas/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "preguntas-practicas",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Correlativos",
+      "item": [
+        {
+          "name": "Listar Correlativos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/correlativos",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "correlativos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener Correlativo por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/correlativos/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "correlativos",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear Correlativo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fecha_correlativo\": \"2024-10-16\",\n  \"no_examen\": 1\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/correlativos",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "correlativos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar Correlativo",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fecha_correlativo\": \"2024-10-16\",\n  \"no_examen\": 1\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/correlativos/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "correlativos",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar Correlativo",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/correlativos/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "correlativos",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Géneros",
+      "item": [
+        {
+          "name": "Listar Géneros",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/generos",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "generos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener Género por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/generos/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "generos",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear Género",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"genero\": \"O\",\n  \"descripcion_genero\": \"Otro\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/generos",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "generos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar Género",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"genero\": \"O\",\n  \"descripcion_genero\": \"Otro\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/generos/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "generos",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar Género",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/generos/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "generos",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tipos de Licencia",
+      "item": [
+        {
+          "name": "Listar Tipos de Licencia",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/tipos-licencia",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tipos-licencia"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener Tipos de Licencia por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/tipos-licencia/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tipos-licencia",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear Tipos de Licencia",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tipo_licencia\": \"D\",\n  \"descripcion_licencia\": \"Diplom\\u00e1tica\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/tipos-licencia",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tipos-licencia"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar Tipos de Licencia",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tipo_licencia\": \"D\",\n  \"descripcion_licencia\": \"Diplom\\u00e1tica\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/tipos-licencia/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tipos-licencia",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar Tipos de Licencia",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/tipos-licencia/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tipos-licencia",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tipos de Trámite",
+      "item": [
+        {
+          "name": "Listar Tipos de Trámite",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/tipos-tramite",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tipos-tramite"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener Tipos de Trámite por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/tipos-tramite/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tipos-tramite",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear Tipos de Trámite",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tipo_tramite\": \"REPOSICION\",\n  \"descripcion_tramite\": \"Reposici\\u00f3n de licencia por robo o extrav\\u00edo\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/tipos-tramite",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tipos-tramite"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar Tipos de Trámite",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tipo_tramite\": \"REPOSICION\",\n  \"descripcion_tramite\": \"Reposici\\u00f3n de licencia por robo o extrav\\u00edo\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/tipos-tramite/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tipos-tramite",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar Tipos de Trámite",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/tipos-tramite/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tipos-tramite",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Ubicaciones",
+      "item": [
+        {
+          "name": "Listar Ubicaciones",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/ubicaciones",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ubicaciones"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear Ubicacione",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id_escuela\": 1,\n  \"id_centro\": 1\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/ubicaciones",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ubicaciones"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar Ubicacione",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/ubicaciones/1/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ubicaciones",
+                "1",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Registros",
+      "item": [
+        {
+          "name": "Listar Registros",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/registros",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "registros"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener Registro por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/registros/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "registros",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear Registro",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id_escuela\": 1,\n  \"id_centro\": 1,\n  \"id_municipio\": 1,\n  \"id_departamento\": 1,\n  \"fecha_registro\": \"2024-10-16\",\n  \"tipo_tramite\": \"PRIMER_LICENCIA\",\n  \"tipo_licencia\": \"B\",\n  \"nombre_completo\": \"Juan P\\u00e9rez L\\u00f3pez\",\n  \"genero\": \"M\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/registros",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "registros"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar Registro",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id_escuela\": 1,\n  \"id_centro\": 1,\n  \"id_municipio\": 1,\n  \"id_departamento\": 1,\n  \"fecha_registro\": \"2024-10-16\",\n  \"tipo_tramite\": \"PRIMER_LICENCIA\",\n  \"tipo_licencia\": \"B\",\n  \"nombre_completo\": \"Juan P\\u00e9rez L\\u00f3pez\",\n  \"genero\": \"M\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/registros/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "registros",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar Registro",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/registros/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "registros",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Exámenes",
+      "item": [
+        {
+          "name": "Listar Exámenes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/examenes",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "examenes"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener Exámene por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/examenes/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "examenes",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear Exámene",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id_escuela\": 1,\n  \"id_centro\": 1,\n  \"id_municipio\": 1,\n  \"id_departamento\": 1,\n  \"id_registro\": 1,\n  \"id_correlativo\": 1\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/examenes",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "examenes"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar Exámene",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id_escuela\": 1,\n  \"id_centro\": 1,\n  \"id_municipio\": 1,\n  \"id_departamento\": 1,\n  \"id_registro\": 1,\n  \"id_correlativo\": 1\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/examenes/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "examenes",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar Exámene",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/examenes/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "examenes",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Respuestas Usuario",
+      "item": [
+        {
+          "name": "Listar Respuestas Usuario",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/respuestas-usuario",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "respuestas-usuario"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener Respuestas Usuario por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/respuestas-usuario/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "respuestas-usuario",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear Respuestas Usuario",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id_pregunta\": 1,\n  \"id_examen\": 1,\n  \"respuesta_seleccionada\": 2\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/respuestas-usuario",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "respuestas-usuario"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar Respuestas Usuario",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id_pregunta\": 1,\n  \"id_examen\": 1,\n  \"respuesta_seleccionada\": 2\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/respuestas-usuario/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "respuestas-usuario",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar Respuestas Usuario",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/respuestas-usuario/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "respuestas-usuario",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Respuestas Práctico",
+      "item": [
+        {
+          "name": "Listar Respuestas Práctico",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/respuestas-practico",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "respuestas-practico"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Obtener Respuestas Práctico por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/respuestas-practico/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "respuestas-practico",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear Respuestas Práctico",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id_pregunta_practico\": 1,\n  \"id_examen\": 1,\n  \"nota_obtenida\": 8\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/respuestas-practico",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "respuestas-practico"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar Respuestas Práctico",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id_pregunta_practico\": 1,\n  \"id_examen\": 1,\n  \"nota_obtenida\": 8\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/respuestas-practico/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "respuestas-practico",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Eliminar Respuestas Práctico",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/respuestas-practico/1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "respuestas-practico",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Consultas SQL",
+      "item": [
+        {
+          "name": "CONSULTA 1: Estadísticas por Centro",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/consultas/estadisticas-centros",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "consultas",
+                "estadisticas-centros"
+              ]
+            },
+            "description": "Presenta promedios de punteos teóricos y prácticos agrupados por centro de evaluación y escuela"
+          }
+        },
+        {
+          "name": "CONSULTA 2: Ranking de Evaluadores",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/consultas/ranking-evaluadores",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "consultas",
+                "ranking-evaluadores"
+              ]
+            },
+            "description": "Lista ordenada de evaluados por puntaje total descendente y resultado"
+          }
+        },
+        {
+          "name": "CONSULTA 3: Pregunta Más Difícil",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/consultas/pregunta-dificil",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "consultas",
+                "pregunta-dificil"
+              ]
+            },
+            "description": "Identifica la pregunta más difícil del banco (menor porcentaje de aciertos)"
+          }
+        },
+        {
+          "name": "CONSULTA GENERAL: SQL Personalizado",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"SELECT COUNT(*) AS total_centros FROM centro\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/consultas/general",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "consultas",
+                "general"
+              ]
+            },
+            "description": "Ejecuta una consulta SQL personalizada (solo SELECT permitido)"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ]
+}
