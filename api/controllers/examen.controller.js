@@ -61,34 +61,60 @@ exports.getById = async (req, res) => {
 
 exports.create = async (req, res) => {
   try {
-    const { 
-      id_escuela, id_centro, id_municipio, id_departamento,
-      id_registro, id_correlativo
-    } = req.body;
+    const data = req.body;
+    const examenes = Array.isArray(data) ? data : [data];
     
-    const result = await db.execute(
-      `INSERT INTO examen (
-         id_examen, id_escuela, id_centro, id_municipio, id_departamento,
-         id_registro, id_correlativo
-       ) VALUES (
-         seq_examen.NEXTVAL, :id_escuela, :id_centro, :id_municipio, :id_departamento,
-         :id_registro, :id_correlativo
-       ) RETURNING id_examen INTO :id`,
-      {
-        id_escuela, id_centro, id_municipio, id_departamento,
-        id_registro, id_correlativo,
-        id: { dir: db.BIND_OUT, type: db.NUMBER }
-      },
-      { autoCommit: true }
-    );
+    // Validar que todos los exámenes tengan los campos requeridos
+    for (const exam of examenes) {
+      if (!exam.id_examen || !exam.id_escuela || !exam.id_centro || !exam.id_municipio || 
+          !exam.id_departamento || !exam.id_registro || !exam.id_correlativo) {
+        return res.status(400).json({
+          success: false,
+          error: 'Todos los campos son requeridos: id_examen, id_escuela, id_centro, id_municipio, id_departamento, id_registro, id_correlativo'
+        });
+      }
+    }
+    
+    const insertedData = [];
+    
+    // Insertar cada examen
+    for (const exam of examenes) {
+      await db.execute(
+        `INSERT INTO examen (
+           id_examen, id_escuela, id_centro, id_municipio, id_departamento,
+           id_registro, id_correlativo
+         ) VALUES (
+           :id_examen, :id_escuela, :id_centro, :id_municipio, :id_departamento,
+           :id_registro, :id_correlativo
+         )`,
+        {
+          id_examen: exam.id_examen,
+          id_escuela: exam.id_escuela,
+          id_centro: exam.id_centro,
+          id_municipio: exam.id_municipio,
+          id_departamento: exam.id_departamento,
+          id_registro: exam.id_registro,
+          id_correlativo: exam.id_correlativo
+        },
+        { autoCommit: true }
+      );
+      
+      insertedData.push({
+        id_examen: exam.id_examen,
+        id_escuela: exam.id_escuela,
+        id_centro: exam.id_centro,
+        id_municipio: exam.id_municipio,
+        id_departamento: exam.id_departamento,
+        id_registro: exam.id_registro,
+        id_correlativo: exam.id_correlativo
+      });
+    }
     
     res.status(201).json({
       success: true,
-      data: { 
-        id_examen: result.outBinds.id[0],
-        id_escuela, id_centro, id_municipio, id_departamento,
-        id_registro, id_correlativo
-      }
+      data: Array.isArray(data) ? insertedData : insertedData[0],
+      count: insertedData.length,
+      message: `${insertedData.length} examen(es) creado(s) exitosamente`
     });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });

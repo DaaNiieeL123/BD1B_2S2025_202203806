@@ -41,10 +41,10 @@ exports.create = async (req, res) => {
     
     // Validar que todas las preguntas tengan los campos requeridos
     for (const preg of preguntas) {
-      if (!preg.id_pregunta_practico || !preg.titulo_pregunta || !preg.descripcion_pregunta) {
+      if (!preg.id_pregunta_practico || !preg.pregunta_texto) {
         return res.status(400).json({
           success: false,
-          error: 'Todos los campos son requeridos: id_pregunta_practico, titulo_pregunta, descripcion_pregunta'
+          error: 'Todos los campos son requeridos: id_pregunta_practico, pregunta_texto, punteo_maximo (opcional, default 10)'
         });
       }
     }
@@ -53,21 +53,23 @@ exports.create = async (req, res) => {
     
     // Insertar cada pregunta práctica
     for (const preg of preguntas) {
+      const punteo = preg.punteo_maximo || 10; // Default 10
+      
       await db.execute(
-        `INSERT INTO pregunta_practico (id_pregunta_practico, titulo_pregunta, descripcion_pregunta) 
-         VALUES (:id_pregunta_practico, :titulo, :descripcion)`,
+        `INSERT INTO pregunta_practico (id_pregunta_practico, pregunta_texto, punteo_maximo) 
+         VALUES (:id_pregunta_practico, :texto, :punteo)`,
         {
           id_pregunta_practico: preg.id_pregunta_practico,
-          titulo: preg.titulo_pregunta,
-          descripcion: preg.descripcion_pregunta
+          texto: preg.pregunta_texto,
+          punteo: punteo
         },
         { autoCommit: true }
       );
       
       insertedData.push({
         id_pregunta_practico: preg.id_pregunta_practico,
-        titulo_pregunta: preg.titulo_pregunta,
-        descripcion_pregunta: preg.descripcion_pregunta
+        pregunta_texto: preg.pregunta_texto,
+        punteo_maximo: punteo
       });
     }
     

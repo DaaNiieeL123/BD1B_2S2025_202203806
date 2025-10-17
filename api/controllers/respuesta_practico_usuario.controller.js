@@ -4,7 +4,7 @@ exports.getAll = async (req, res) => {
   try {
     const result = await db.execute(
       `SELECT rpu.id_respuesta_practico, rpu.id_pregunta_practico, rpu.id_examen, rpu.nota_obtenida,
-              pp.titulo_pregunta
+              pp.pregunta_texto
        FROM respuesta_practico_usuario rpu
        LEFT JOIN pregunta_practico pp ON rpu.id_pregunta_practico = pp.id_pregunta_practico
        ORDER BY rpu.id_examen, rpu.id_respuesta_practico`,
@@ -27,7 +27,7 @@ exports.getById = async (req, res) => {
     const { id } = req.params;
     const result = await db.execute(
       `SELECT rpu.id_respuesta_practico, rpu.id_pregunta_practico, rpu.id_examen, rpu.nota_obtenida,
-              pp.titulo_pregunta
+              pp.pregunta_texto
        FROM respuesta_practico_usuario rpu
        LEFT JOIN pregunta_practico pp ON rpu.id_pregunta_practico = pp.id_pregunta_practico
        WHERE rpu.id_respuesta_practico = :id`,
@@ -47,27 +47,51 @@ exports.getById = async (req, res) => {
 
 exports.create = async (req, res) => {
   try {
-    const { id_pregunta_practico, id_examen, nota_obtenida } = req.body;
+    const data = req.body;
+    const respuestas = Array.isArray(data) ? data : [data];
     
-    const result = await db.execute(
-      `INSERT INTO respuesta_practico_usuario (
-         id_respuesta_practico, id_pregunta_practico, id_examen, nota_obtenida
-       ) VALUES (
-         seq_respuesta_practico.NEXTVAL, :id_pregunta_practico, :id_examen, :nota_obtenida
-       ) RETURNING id_respuesta_practico INTO :id`,
-      {
-        id_pregunta_practico, id_examen, nota_obtenida,
-        id: { dir: db.BIND_OUT, type: db.NUMBER }
-      },
-      { autoCommit: true }
-    );
+    // Validar que todas las respuestas tengan los campos requeridos
+    for (const resp of respuestas) {
+      if (!resp.id_respuesta_practico || !resp.id_pregunta_practico || !resp.id_examen || resp.nota_obtenida === undefined) {
+        return res.status(400).json({
+          success: false,
+          error: 'Todos los campos son requeridos: id_respuesta_practico, id_pregunta_practico, id_examen, nota_obtenida'
+        });
+      }
+    }
+    
+    const insertedData = [];
+    
+    // Insertar cada respuesta práctica
+    for (const resp of respuestas) {
+      await db.execute(
+        `INSERT INTO respuesta_practico_usuario (
+           id_respuesta_practico, id_pregunta_practico, id_examen, nota_obtenida
+         ) VALUES (
+           :id_respuesta_practico, :id_pregunta_practico, :id_examen, :nota_obtenida
+         )`,
+        {
+          id_respuesta_practico: resp.id_respuesta_practico,
+          id_pregunta_practico: resp.id_pregunta_practico,
+          id_examen: resp.id_examen,
+          nota_obtenida: resp.nota_obtenida
+        },
+        { autoCommit: true }
+      );
+      
+      insertedData.push({
+        id_respuesta_practico: resp.id_respuesta_practico,
+        id_pregunta_practico: resp.id_pregunta_practico,
+        id_examen: resp.id_examen,
+        nota_obtenida: resp.nota_obtenida
+      });
+    }
     
     res.status(201).json({
       success: true,
-      data: { 
-        id_respuesta_practico: result.outBinds.id[0],
-        id_pregunta_practico, id_examen, nota_obtenida
-      }
+      data: Array.isArray(data) ? insertedData : insertedData[0],
+      count: insertedData.length,
+      message: `${insertedData.length} respuesta(s) práctica(s) creada(s) exitosamente`
     });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });

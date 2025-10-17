@@ -1,12 +1,12 @@
 -- ============================================
--- PROYECTO FASE 2: CENTROS DE EVALUACIÓN DE MANEJO
--- Esquema DDL - Inicialización Automática
+-- PROYECTO FASE 2: CENTROS DE EVALUACION DE MANEJO
+-- Esquema DDL - Inicializacion Automatica
 -- ============================================
 -- Modelo Relacional completo de la Fase 1
 -- Schema: EVALUACION_MANEJO
 -- ============================================
 
--- Conectar como el usuario de la aplicación
+-- Conectar como el usuario de la aplicacion
 -- Este script debe ejecutarse como: evaluacion_manejo/EvaluacionPass123
 
 -- Verificar usuario actual
@@ -114,7 +114,7 @@ BEGIN EXECUTE IMMEDIATE 'DROP SEQUENCE seq_respuesta_practico_usuario'; EXCEPTIO
 /
 
 -- ============================================
--- CATÁLOGOS 
+-- CATALOGOS 
 -- ============================================
 
 CREATE TABLE tipo_licencia (
@@ -124,9 +124,9 @@ CREATE TABLE tipo_licencia (
     CONSTRAINT chk_tipo_licencia CHECK (tipo_licencia IN ('M', 'B', 'A', 'E', 'C'))
 );
 
-COMMENT ON TABLE tipo_licencia IS 'Catálogo de tipos de licencia';
-COMMENT ON COLUMN tipo_licencia.tipo_licencia IS 'Código: M=Moto, B=Liviana, A=Profesional, E=Agrícola, C=Otro';
-COMMENT ON COLUMN tipo_licencia.descripcion_licencia IS 'Descripción del tipo de licencia';
+COMMENT ON TABLE tipo_licencia IS 'Catalogo de tipos de licencia';
+COMMENT ON COLUMN tipo_licencia.tipo_licencia IS 'Codigo: M=Moto, B=Liviana, A=Profesional, E=Agricola, C=Otro';
+COMMENT ON COLUMN tipo_licencia.descripcion_licencia IS 'Descripcion del tipo de licencia';
 
 CREATE TABLE tipo_tramite (
     tipo_tramite VARCHAR2(30) NOT NULL,
@@ -135,7 +135,7 @@ CREATE TABLE tipo_tramite (
     CONSTRAINT chk_tipo_tramite CHECK (tipo_tramite IN ('PRIMER_LICENCIA', 'TRASPASO'))
 );
 
-COMMENT ON TABLE tipo_tramite IS 'Catálogo de tipos de trámite';
+COMMENT ON TABLE tipo_tramite IS 'Catalogo de tipos de tramite';
 
 CREATE TABLE genero_catalogo (
     genero CHAR(1) NOT NULL,
@@ -144,7 +144,7 @@ CREATE TABLE genero_catalogo (
     CONSTRAINT chk_genero CHECK (genero IN ('M','F'))
 );
 
-COMMENT ON TABLE genero_catalogo IS 'Catálogo de géneros (códigos M/F)';
+COMMENT ON TABLE genero_catalogo IS 'Catalogo de generos (codigos M/F)';
 
 -- ============================================
 -- TABLAS PRINCIPALES
@@ -157,7 +157,7 @@ CREATE TABLE centro (
     CONSTRAINT pk_centro PRIMARY KEY (id_centro)
 );
 
-COMMENT ON TABLE centro IS 'Centros de evaluación';
+COMMENT ON TABLE centro IS 'Centros de evaluacion';
 
 -- 2. TABLA ESCUELA
 CREATE TABLE escuela (
@@ -193,7 +193,7 @@ CREATE TABLE municipio (
 
 COMMENT ON TABLE municipio IS 'Municipios por departamento';
 
--- 5. TABLA UBICACION (Relación escuela-centro)
+-- 5. TABLA UBICACION (Relacion escuela-centro)
 CREATE TABLE ubicacion (
     id_escuela NUMBER NOT NULL,
     id_centro NUMBER NOT NULL,
@@ -204,9 +204,9 @@ CREATE TABLE ubicacion (
         REFERENCES centro(id_centro)
 );
 
-COMMENT ON TABLE ubicacion IS 'Relación de escuelas que operan en centros';
+COMMENT ON TABLE ubicacion IS 'Relacion de escuelas que operan en centros';
 
--- 6. TABLA PREGUNTA (Preguntas teóricas)
+-- 6. TABLA PREGUNTA (Preguntas teoricas)
 CREATE TABLE pregunta (
     id_pregunta NUMBER NOT NULL,
     pregunta_texto CLOB NOT NULL,
@@ -219,7 +219,7 @@ CREATE TABLE pregunta (
     CONSTRAINT chk_respuesta_correcta CHECK (respuesta_correcta IN (1, 2, 3, 4))
 );
 
-COMMENT ON TABLE pregunta IS 'Banco de preguntas teóricas con opciones múltiples';
+COMMENT ON TABLE pregunta IS 'Banco de preguntas teoricas con opciones multiples';
 
 -- 7. TABLA PREGUNTA_PRACTICO
 CREATE TABLE pregunta_practico (
@@ -230,7 +230,7 @@ CREATE TABLE pregunta_practico (
     CONSTRAINT chk_punteo_maximo CHECK (punteo_maximo > 0 AND punteo_maximo <= 10)
 );
 
-COMMENT ON TABLE pregunta_practico IS 'Procedimientos para evaluación práctica';
+COMMENT ON TABLE pregunta_practico IS 'Procedimientos para evaluacion practica';
 
 -- 8. TABLA REGISTRO
 CREATE TABLE registro (
@@ -272,7 +272,7 @@ CREATE TABLE correlativo (
     CONSTRAINT uk_correlativo_fecha_no UNIQUE (fecha_correlativo, no_examen)
 );
 
-COMMENT ON TABLE correlativo IS 'Correlativos diarios de exámenes';
+COMMENT ON TABLE correlativo IS 'Correlativos diarios de examenes';
 
 -- 10. TABLA EXAMEN
 CREATE TABLE examen (
@@ -298,9 +298,9 @@ CREATE TABLE examen (
         REFERENCES correlativo(id_correlativo)
 );
 
-COMMENT ON TABLE examen IS 'Exámenes realizados';
+COMMENT ON TABLE examen IS 'Examenes realizados';
 
--- 11. TABLA RESPUESTA_USUARIO (Respuestas teóricas)
+-- 11. TABLA RESPUESTA_USUARIO (Respuestas teoricas)
 CREATE TABLE respuesta_usuario (
     id_respuesta_usuario NUMBER NOT NULL,
     id_pregunta NUMBER NOT NULL,
@@ -314,7 +314,7 @@ CREATE TABLE respuesta_usuario (
     CONSTRAINT chk_respuesta_seleccionada CHECK (respuesta_seleccionada IN (1, 2, 3, 4))
 );
 
-COMMENT ON TABLE respuesta_usuario IS 'Respuestas del usuario en examen teórico';
+COMMENT ON TABLE respuesta_usuario IS 'Respuestas del usuario en examen teorico';
 
 -- 12. TABLA RESPUESTA_PRACTICO_USUARIO
 CREATE TABLE respuesta_practico_usuario (
@@ -330,10 +330,10 @@ CREATE TABLE respuesta_practico_usuario (
     CONSTRAINT chk_nota_obtenida CHECK (nota_obtenida >= 0 AND nota_obtenida <= 10)
 );
 
-COMMENT ON TABLE respuesta_practico_usuario IS 'Calificaciones del usuario en examen práctico';
+COMMENT ON TABLE respuesta_practico_usuario IS 'Calificaciones del usuario en examen practico';
 
 -- ============================================
--- ÍNDICES PARA MEJOR RENDIMIENTO
+-- INDICES PARA MEJOR RENDIMIENTO
 -- ============================================
 
 CREATE INDEX idx_registro_fecha ON registro(fecha_registro);
@@ -358,26 +358,26 @@ CREATE SEQUENCE seq_respuesta_usuario START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE seq_respuesta_practico_usuario START WITH 1 INCREMENT BY 1;
 
 -- ============================================
--- DATOS INICIALES PARA CATÁLOGOS
+-- DATOS INICIALES PARA CATALOGOS
 -- ============================================
 
 -- Tipos de licencia
 INSERT INTO tipo_licencia (tipo_licencia, descripcion_licencia) VALUES ('M', 'Motocicleta');
 INSERT INTO tipo_licencia (tipo_licencia, descripcion_licencia) VALUES ('B', 'Liviana');
 INSERT INTO tipo_licencia (tipo_licencia, descripcion_licencia) VALUES ('A', 'Profesional');
-INSERT INTO tipo_licencia (tipo_licencia, descripcion_licencia) VALUES ('E', 'Agrícola');
+INSERT INTO tipo_licencia (tipo_licencia, descripcion_licencia) VALUES ('E', 'Agricola');
 INSERT INTO tipo_licencia (tipo_licencia, descripcion_licencia) VALUES ('C', 'Otro');
 
--- Tipos de trámite
+-- Tipos de tramite
 INSERT INTO tipo_tramite (tipo_tramite, descripcion_tramite) VALUES ('PRIMER_LICENCIA', 'Primera vez solicitando licencia');
 INSERT INTO tipo_tramite (tipo_tramite, descripcion_tramite) VALUES ('TRASPASO', 'Traspaso de licencia');
 
--- Géneros
+-- Generos
 INSERT INTO genero_catalogo (genero, descripcion_genero) VALUES ('M', 'Masculino');
 INSERT INTO genero_catalogo (genero, descripcion_genero) VALUES ('F', 'Femenino');
 
 COMMIT;
 
--- Mensaje de confirmación
+-- Mensaje de confirmacion
 SELECT 'Schema EVALUACION_MANEJO inicializado correctamente con ' || 
        (SELECT COUNT(*) FROM user_tables) || ' tablas' AS status FROM DUAL;

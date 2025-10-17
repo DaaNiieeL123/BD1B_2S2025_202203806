@@ -55,35 +55,68 @@ exports.getById = async (req, res) => {
 
 exports.create = async (req, res) => {
   try {
-    const { 
-      id_escuela, id_centro, id_municipio, id_departamento,
-      fecha_registro, tipo_tramite, tipo_licencia, nombre_completo, genero 
-    } = req.body;
+    const data = req.body;
+    const registros = Array.isArray(data) ? data : [data];
     
-    const result = await db.execute(
-      `INSERT INTO registro (
-         id_registro, id_escuela, id_centro, id_municipio, id_departamento,
-         fecha_registro, tipo_tramite, tipo_licencia, nombre_completo, genero
-       ) VALUES (
-         seq_registro.NEXTVAL, :id_escuela, :id_centro, :id_municipio, :id_departamento,
-         TO_DATE(:fecha_registro, 'YYYY-MM-DD'), :tipo_tramite, :tipo_licencia, 
-         :nombre_completo, :genero
-       ) RETURNING id_registro INTO :id`,
-      {
-        id_escuela, id_centro, id_municipio, id_departamento,
-        fecha_registro, tipo_tramite, tipo_licencia, nombre_completo, genero,
-        id: { dir: db.BIND_OUT, type: db.NUMBER }
-      },
-      { autoCommit: true }
-    );
+    // Validar que todos los registros tengan los campos requeridos
+    for (const reg of registros) {
+      if (!reg.id_registro || !reg.id_escuela || !reg.id_centro || !reg.id_municipio || 
+          !reg.id_departamento || !reg.fecha_registro || !reg.tipo_tramite || 
+          !reg.tipo_licencia || !reg.nombre_completo || !reg.genero) {
+        return res.status(400).json({
+          success: false,
+          error: 'Todos los campos son requeridos: id_registro, id_escuela, id_centro, id_municipio, id_departamento, fecha_registro, tipo_tramite, tipo_licencia, nombre_completo, genero'
+        });
+      }
+    }
+    
+    const insertedData = [];
+    
+    // Insertar cada registro
+    for (const reg of registros) {
+      await db.execute(
+        `INSERT INTO registro (
+           id_registro, id_escuela, id_centro, id_municipio, id_departamento,
+           fecha_registro, tipo_tramite, tipo_licencia, nombre_completo, genero
+         ) VALUES (
+           :id_registro, :id_escuela, :id_centro, :id_municipio, :id_departamento,
+           TO_DATE(:fecha_registro, 'YYYY-MM-DD'), :tipo_tramite, :tipo_licencia, 
+           :nombre_completo, :genero
+         )`,
+        {
+          id_registro: reg.id_registro,
+          id_escuela: reg.id_escuela,
+          id_centro: reg.id_centro,
+          id_municipio: reg.id_municipio,
+          id_departamento: reg.id_departamento,
+          fecha_registro: reg.fecha_registro,
+          tipo_tramite: reg.tipo_tramite,
+          tipo_licencia: reg.tipo_licencia,
+          nombre_completo: reg.nombre_completo,
+          genero: reg.genero
+        },
+        { autoCommit: true }
+      );
+      
+      insertedData.push({
+        id_registro: reg.id_registro,
+        id_escuela: reg.id_escuela,
+        id_centro: reg.id_centro,
+        id_municipio: reg.id_municipio,
+        id_departamento: reg.id_departamento,
+        fecha_registro: reg.fecha_registro,
+        tipo_tramite: reg.tipo_tramite,
+        tipo_licencia: reg.tipo_licencia,
+        nombre_completo: reg.nombre_completo,
+        genero: reg.genero
+      });
+    }
     
     res.status(201).json({
       success: true,
-      data: { 
-        id_registro: result.outBinds.id[0],
-        id_escuela, id_centro, id_municipio, id_departamento,
-        fecha_registro, tipo_tramite, tipo_licencia, nombre_completo, genero
-      }
+      data: Array.isArray(data) ? insertedData : insertedData[0],
+      count: insertedData.length,
+      message: `${insertedData.length} registro(s) creado(s) exitosamente`
     });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });

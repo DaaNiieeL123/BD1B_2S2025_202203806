@@ -4,7 +4,7 @@ exports.getAll = async (req, res) => {
   try {
     const result = await db.execute(
       `SELECT ru.id_respuesta_usuario, ru.id_pregunta, ru.id_examen, ru.respuesta_seleccionada,
-              p.texto_pregunta, p.respuesta_correcta
+              p.pregunta_texto, p.respuesta_correcta
        FROM respuesta_usuario ru
        LEFT JOIN pregunta p ON ru.id_pregunta = p.id_pregunta
        ORDER BY ru.id_examen, ru.id_respuesta_usuario`,
@@ -27,7 +27,7 @@ exports.getById = async (req, res) => {
     const { id } = req.params;
     const result = await db.execute(
       `SELECT ru.id_respuesta_usuario, ru.id_pregunta, ru.id_examen, ru.respuesta_seleccionada,
-              p.texto_pregunta, p.respuesta_correcta
+              p.pregunta_texto, p.respuesta_correcta
        FROM respuesta_usuario ru
        LEFT JOIN pregunta p ON ru.id_pregunta = p.id_pregunta
        WHERE ru.id_respuesta_usuario = :id`,
@@ -47,27 +47,51 @@ exports.getById = async (req, res) => {
 
 exports.create = async (req, res) => {
   try {
-    const { id_pregunta, id_examen, respuesta_seleccionada } = req.body;
+    const data = req.body;
+    const respuestas = Array.isArray(data) ? data : [data];
     
-    const result = await db.execute(
-      `INSERT INTO respuesta_usuario (
-         id_respuesta_usuario, id_pregunta, id_examen, respuesta_seleccionada
-       ) VALUES (
-         seq_respuesta_usuario.NEXTVAL, :id_pregunta, :id_examen, :respuesta_seleccionada
-       ) RETURNING id_respuesta_usuario INTO :id`,
-      {
-        id_pregunta, id_examen, respuesta_seleccionada,
-        id: { dir: db.BIND_OUT, type: db.NUMBER }
-      },
-      { autoCommit: true }
-    );
+    // Validar que todas las respuestas tengan los campos requeridos
+    for (const resp of respuestas) {
+      if (!resp.id_respuesta_usuario || !resp.id_pregunta || !resp.id_examen || resp.respuesta_seleccionada === undefined) {
+        return res.status(400).json({
+          success: false,
+          error: 'Todos los campos son requeridos: id_respuesta_usuario, id_pregunta, id_examen, respuesta_seleccionada'
+        });
+      }
+    }
+    
+    const insertedData = [];
+    
+    // Insertar cada respuesta
+    for (const resp of respuestas) {
+      await db.execute(
+        `INSERT INTO respuesta_usuario (
+           id_respuesta_usuario, id_pregunta, id_examen, respuesta_seleccionada
+         ) VALUES (
+           :id_respuesta_usuario, :id_pregunta, :id_examen, :respuesta_seleccionada
+         )`,
+        {
+          id_respuesta_usuario: resp.id_respuesta_usuario,
+          id_pregunta: resp.id_pregunta,
+          id_examen: resp.id_examen,
+          respuesta_seleccionada: resp.respuesta_seleccionada
+        },
+        { autoCommit: true }
+      );
+      
+      insertedData.push({
+        id_respuesta_usuario: resp.id_respuesta_usuario,
+        id_pregunta: resp.id_pregunta,
+        id_examen: resp.id_examen,
+        respuesta_seleccionada: resp.respuesta_seleccionada
+      });
+    }
     
     res.status(201).json({
       success: true,
-      data: { 
-        id_respuesta_usuario: result.outBinds.id[0],
-        id_pregunta, id_examen, respuesta_seleccionada
-      }
+      data: Array.isArray(data) ? insertedData : insertedData[0],
+      count: insertedData.length,
+      message: `${insertedData.length} respuesta(s) creada(s) exitosamente`
     });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });

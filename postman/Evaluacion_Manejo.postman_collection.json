@@ -72,7 +72,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"id_centro\": 1,\n  \"nombre_centro\": \"Centro Evaluaci\\u00f3n Guatemala Norte\"\n}"
+              "raw": "{\n  \"id_centro\": 1,\n  \"nombre_centro\": \"Centro Evaluacion Guatemala Norte\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/centros",
@@ -98,7 +98,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"nombre_centro\": \"Centro Evaluaci\\u00f3n Guatemala Norte\"\n}"
+              "raw": "{\n  \"nombre_centro\": \"Centro Evaluacion Guatemala Norte\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/centros/1",
@@ -516,7 +516,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"id_pregunta\": 1,\n  \"texto_pregunta\": \"\\u00bfCu\\u00e1l es la velocidad m\\u00e1xima en zona urbana?\",\n  \"opcion_1\": \"40 km/h\",\n  \"opcion_2\": \"60 km/h\",\n  \"opcion_3\": \"80 km/h\",\n  \"opcion_4\": \"100 km/h\",\n  \"respuesta_correcta\": 2\n}"
+              "raw": "{\n  \"id_pregunta\": 1,\n  \"pregunta_texto\": \"Cual es la velocidad maxima en zona urbana?\",\n  \"opcion_1\": \"40 km/h\",\n  \"opcion_2\": \"60 km/h\",\n  \"opcion_3\": \"80 km/h\",\n  \"opcion_4\": \"100 km/h\",\n  \"respuesta_correcta\": 2\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/preguntas",
@@ -542,7 +542,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"texto_pregunta\": \"\\u00bfCu\\u00e1l es la velocidad m\\u00e1xima en zona urbana?\",\n  \"opcion_1\": \"40 km/h\",\n  \"opcion_2\": \"60 km/h\",\n  \"opcion_3\": \"80 km/h\",\n  \"opcion_4\": \"100 km/h\",\n  \"respuesta_correcta\": 2\n}"
+              "raw": "{\n  \"pregunta_texto\": \"Cual es la velocidad maxima en zona urbana?\",\n  \"opcion_1\": \"40 km/h\",\n  \"opcion_2\": \"60 km/h\",\n  \"opcion_3\": \"80 km/h\",\n  \"opcion_4\": \"100 km/h\",\n  \"respuesta_correcta\": 2\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/preguntas/1",
@@ -627,7 +627,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"id_pregunta_practico\": 1,\n  \"titulo_pregunta\": \"Estacionamiento en Paralelo\",\n  \"descripcion_pregunta\": \"Estacionar el veh\\u00edculo en paralelo sin tocar bordillo\"\n}"
+              "raw": "{\n  \"id_pregunta_practico\": 1,\n  \"pregunta_texto\": \"Estacionamiento en Paralelo\",\n  \"punteo_maximo\": 10\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/preguntas-practicas",
@@ -653,7 +653,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"titulo_pregunta\": \"Estacionamiento en Paralelo\",\n  \"descripcion_pregunta\": \"Estacionar el veh\\u00edculo en paralelo sin tocar bordillo\"\n}"
+              "raw": "{\n  \"pregunta_texto\": \"Estacionamiento en Paralelo\",\n  \"punteo_maximo\": 10\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/preguntas-practicas/1",
@@ -986,7 +986,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"tipo_licencia\": \"D\",\n  \"descripcion_licencia\": \"Diplom\\u00e1tica\"\n}"
+              "raw": "{\n  \"tipo_licencia\": \"D\",\n  \"descripcion_licencia\": \"Diplomatica\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/tipos-licencia/1",
@@ -1097,7 +1097,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"tipo_tramite\": \"REPOSICION\",\n  \"descripcion_tramite\": \"Reposici\\u00f3n de licencia por robo o extrav\\u00edo\"\n}"
+              "raw": "{\n  \"tipo_tramite\": \"REPOSICION\",\n  \"descripcion_tramite\": \"Reposicion de licencia por robo o extravio\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/tipos-tramite/1",
@@ -1249,7 +1249,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"id_escuela\": 1,\n  \"id_centro\": 1,\n  \"id_municipio\": 1,\n  \"id_departamento\": 1,\n  \"fecha_registro\": \"2024-10-16\",\n  \"tipo_tramite\": \"PRIMER_LICENCIA\",\n  \"tipo_licencia\": \"B\",\n  \"nombre_completo\": \"Juan P\\u00e9rez L\\u00f3pez\",\n  \"genero\": \"M\"\n}"
+              "raw": "{\n  \"id_registro\": 1,\n  \"id_escuela\": 1,\n  \"id_centro\": 1,\n  \"id_municipio\": 1,\n  \"id_departamento\": 1,\n  \"fecha_registro\": \"2024-10-16\",\n  \"tipo_tramite\": \"PRIMER_LICENCIA\",\n  \"tipo_licencia\": \"B\",\n  \"nombre_completo\": \"Juan Perez Lopez\",\n  \"genero\": \"M\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/registros",
@@ -1275,7 +1275,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"id_escuela\": 1,\n  \"id_centro\": 1,\n  \"id_municipio\": 1,\n  \"id_departamento\": 1,\n  \"fecha_registro\": \"2024-10-16\",\n  \"tipo_tramite\": \"PRIMER_LICENCIA\",\n  \"tipo_licencia\": \"B\",\n  \"nombre_completo\": \"Juan P\\u00e9rez L\\u00f3pez\",\n  \"genero\": \"M\"\n}"
+              "raw": "{\n  \"id_escuela\": 1,\n  \"id_centro\": 1,\n  \"id_municipio\": 1,\n  \"id_departamento\": 1,\n  \"fecha_registro\": \"2024-10-16\",\n  \"tipo_tramite\": \"PRIMER_LICENCIA\",\n  \"tipo_licencia\": \"B\",\n  \"nombre_completo\": \"Juan Perez Lopez\",\n  \"genero\": \"M\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/registros/1",
@@ -1360,7 +1360,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"id_escuela\": 1,\n  \"id_centro\": 1,\n  \"id_municipio\": 1,\n  \"id_departamento\": 1,\n  \"id_registro\": 1,\n  \"id_correlativo\": 1\n}"
+              "raw": "{\n  \"id_examen\": 1,\n  \"id_escuela\": 1,\n  \"id_centro\": 1,\n  \"id_municipio\": 1,\n  \"id_departamento\": 1,\n  \"id_registro\": 1,\n  \"id_correlativo\": 1\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/examenes",
@@ -1471,7 +1471,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"id_pregunta\": 1,\n  \"id_examen\": 1,\n  \"respuesta_seleccionada\": 2\n}"
+              "raw": "{\n  \"id_respuesta_usuario\": 1,\n  \"id_pregunta\": 1,\n  \"id_examen\": 1,\n  \"respuesta_seleccionada\": 2\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/respuestas-usuario",
@@ -1582,7 +1582,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"id_pregunta_practico\": 1,\n  \"id_examen\": 1,\n  \"nota_obtenida\": 8\n}"
+              "raw": "{\n  \"id_respuesta_practico\": 1,\n  \"id_pregunta_practico\": 1,\n  \"id_examen\": 1,\n  \"nota_obtenida\": 8\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/respuestas-practico",
