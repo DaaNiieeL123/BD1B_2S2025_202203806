@@ -49,18 +49,43 @@ exports.getById = async (req, res) => {
 
 exports.create = async (req, res) => {
   try {
-    const { id_escuela, id_centro } = req.body;
+    const data = req.body;
+    const items = Array.isArray(data) ? data : [data];
     
-    await db.execute(
-      `INSERT INTO ubicacion (id_escuela, id_centro) 
-       VALUES (:id_escuela, :id_centro)`,
-      { id_escuela, id_centro },
-      { autoCommit: true }
-    );
+    // Validar que todos los items tengan los campos requeridos
+    for (const item of items) {
+      if (!item.id_escuela || !item.id_centro) {
+        return res.status(400).json({
+          success: false,
+          error: 'Todos los campos son requeridos: id_escuela, id_centro'
+        });
+      }
+    }
+    
+    const insertedData = [];
+    
+    for (const item of items) {
+      await db.execute(
+        `INSERT INTO ubicacion (id_escuela, id_centro) 
+         VALUES (:id_escuela, :id_centro)`,
+        { 
+          id_escuela: item.id_escuela, 
+          id_centro: item.id_centro 
+        },
+        { autoCommit: true }
+      );
+      
+      insertedData.push({
+        id_escuela: item.id_escuela,
+        id_centro: item.id_centro
+      });
+    }
     
     res.status(201).json({
       success: true,
-      data: { id_escuela, id_centro }
+      data: Array.isArray(data) ? insertedData : insertedData[0],
+      count: insertedData.length,
+      message: `${insertedData.length} ubicacion(es) creada(s) exitosamente`
     });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });

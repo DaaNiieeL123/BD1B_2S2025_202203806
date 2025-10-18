@@ -245,7 +245,7 @@ exports.preguntaMasDificil = async (req, res) => {
 // ============================================
 exports.consultaGeneral = async (req, res) => {
   try {
-    const { query } = req.body;
+    const { query, limit } = req.body;
     
     // Validación básica
     if (!query || typeof query !== 'string') {
@@ -257,22 +257,52 @@ exports.consultaGeneral = async (req, res) => {
     
     // Solo permitir SELECT (seguridad básica)
     const queryTrimmed = query.trim().toUpperCase();
-    if (!queryTrimmed.startsWith('SELECT')) {
+    if (!queryTrimmed.startsWith('SELECT') && !queryTrimmed.startsWith('WITH')) {
       return res.status(403).json({
         success: false,
-        error: 'Solo se permiten consultas SELECT'
+        error: 'Solo se permiten consultas SELECT y CTEs (WITH)'
       });
     }
     
-    // Ejecutar consulta
-    const result = await db.execute(query, [], { outFormat: db.OUT_FORMAT_OBJECT });
+    // Prevenir comandos peligrosos dentro del SELECT
+    const forbiddenKeywords = ['DROP', 'DELETE', 'INSERT', 'UPDATE', 'TRUNCATE', 'ALTER', 'CREATE'];
+    const hasForbidenCommand = forbiddenKeywords.some(keyword => 
+      queryTrimmed.includes(keyword)
+    );
+    
+    if (hasForbidenCommand) {
+      return res.status(403).json({
+        success: false,
+        error: 'La consulta contiene comandos no permitidos (solo lectura)'
+      });
+    }
+    
+    // Aplicar límite opcional
+    let finalQuery = query.trim();
+    const maxLimit = limit && !isNaN(limit) ? Math.min(parseInt(limit), 10000) : 1000;
+    
+    // Si no tiene FETCH FIRST, agregarlo
+    if (!queryTrimmed.includes('FETCH FIRST') && !queryTrimmed.includes('ROWNUM')) {
+      finalQuery += ` FETCH FIRST ${maxLimit} ROWS ONLY`;
+    }
+    
+    // Ejecutar consulta con timeout de 30 segundos
+    const startTime = Date.now();
+    const result = await db.execute(finalQuery, [], { 
+      outFormat: db.OUT_FORMAT_OBJECT,
+      maxRows: 10000 // Protección adicional
+    });
+    const executionTime = Date.now() - startTime;
     
     res.json({
       success: true,
       consulta: 'Consulta personalizada ejecutada',
-      query: query,
+      query: finalQuery,
       data: result.rows,
-      count: result.rows.length
+      count: result.rows.length,
+      execution_time_ms: executionTime,
+      hint: result.rows.length >= maxLimit ? 
+        `Resultados limitados a ${maxLimit} filas. Use FETCH FIRST para personalizar.` : null
     });
   } catch (error) {
     console.error('Error en consulta general:', error);

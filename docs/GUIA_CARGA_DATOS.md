@@ -4,8 +4,6 @@
 
 ### ¡Orden correcto para insertar datos respetando Foreign Keys! 🎯
 
-
-
 </div>
 
 ## 📋 ¿Qué encontrarás aquí?
@@ -30,19 +28,19 @@ ORA-02291: integrity constraint violated - parent key not found
 
 <div align="center">
 
-| Nivel | Tablas | Dependencias |
-|:-----:|--------|--------------|
-| **1** | `GENERO_CATALOGO`, `TIPO_LICENCIA`, `TIPO_TRAMITE` | ✅ Ninguna |
-| **2** | `DEPARTAMENTO` | ✅ Ninguna |
-| **2** | `MUNICIPIO` | ⚠️ Requiere: `DEPARTAMENTO` |
-| **3** | `ESCUELA`, `CENTRO` | ✅ Ninguna |
-| **3** | `UBICACION` | ⚠️ Requiere: `MUNICIPIO` |
-| **4** | `PREGUNTA` | ⚠️ Requiere: `TIPO_LICENCIA` |
-| **4** | `PREGUNTA_PRACTICO`, `CORRELATIVO` | ✅ Ninguna |
-| **5** | `REGISTRO` | ⚠️ Requiere: múltiples tablas anteriores |
-| **5** | `EXAMEN` | ⚠️ Requiere: `REGISTRO`, `UBICACION` |
-| **5** | `RESPUESTA_USUARIO` | ⚠️ Requiere: `EXAMEN`, `PREGUNTA` |
-| **5** | `RESPUESTA_PRACTICO_USUARIO` | ⚠️ Requiere: `EXAMEN`, `PREGUNTA_PRACTICO` |
+|    Nivel    | Tablas                                                   | Dependencias                                    |
+| :---------: | -------------------------------------------------------- | ----------------------------------------------- |
+| **1** | `GENERO_CATALOGO`, `TIPO_LICENCIA`, `TIPO_TRAMITE` | ✅ Ninguna                                      |
+| **2** | `DEPARTAMENTO`                                         | ✅ Ninguna                                      |
+| **2** | `MUNICIPIO`                                            | ⚠️ Requiere:`DEPARTAMENTO`                  |
+| **3** | `ESCUELA`, `CENTRO`                                  | ✅ Ninguna                                      |
+| **3** | `UBICACION`                                            | ⚠️ Requiere:`MUNICIPIO`                     |
+| **4** | `PREGUNTA`                                             | ⚠️ Requiere:`TIPO_LICENCIA`                 |
+| **4** | `PREGUNTA_PRACTICO`, `CORRELATIVO`                   | ✅ Ninguna                                      |
+| **5** | `REGISTRO`                                             | ⚠️ Requiere: múltiples tablas anteriores     |
+| **5** | `EXAMEN`                                               | ⚠️ Requiere:`REGISTRO`, `UBICACION`       |
+| **5** | `RESPUESTA_USUARIO`                                    | ⚠️ Requiere:`EXAMEN`, `PREGUNTA`          |
+| **5** | `RESPUESTA_PRACTICO_USUARIO`                           | ⚠️ Requiere:`EXAMEN`, `PREGUNTA_PRACTICO` |
 
 </div>
 
@@ -50,11 +48,11 @@ ORA-02291: integrity constraint violated - parent key not found
 
 ## 🚀 Herramientas Disponibles
 
-| Herramienta | Descripción | Recomendado |
-|-------------|-------------|:-----------:|
-| **Postman** | ✅ **MÉTODO PRINCIPAL** - Colección con 78 endpoints | ⭐⭐⭐⭐⭐ |
-| **cURL** | Alternativa: Comandos en terminal | ⭐⭐⭐ |
-| **REST Client** | Alternativa: Extensión VSCode | ⭐⭐ |
+| Herramienta           | Descripción                                                | Recomendado |
+| --------------------- | ----------------------------------------------------------- | :---------: |
+| **Postman**     | ✅**MÉTODO PRINCIPAL** - Colección con 78 endpoints | ⭐⭐⭐⭐⭐ |
+| **cURL**        | Alternativa: Comandos en terminal                           |   ⭐⭐⭐   |
+| **REST Client** | Alternativa: Extensión VSCode                              |    ⭐⭐    |
 
 ### 📮 PASO 1: Importar Colección Postman
 
@@ -66,6 +64,7 @@ postman/Evaluacion_Manejo.postman_collection.json
 ```
 
 **Pasos para importar:**
+
 1. ✅ Abrir **Postman Desktop** o **Postman Web**
 2. ✅ Click en **"Import"** (esquina superior izquierda)
 3. ✅ Seleccionar el archivo `Evaluacion_Manejo.postman_collection.json`
@@ -73,6 +72,7 @@ postman/Evaluacion_Manejo.postman_collection.json
 5. ✅ **¡Listo!** Verás la colección con **78 endpoints** organizados
 
 **Variables configuradas:**
+
 - `base_url`: `http://localhost:3000` (ya configurado)
 
 ---
@@ -111,10 +111,12 @@ La colección tiene **15 carpetas** (una por tabla) con **CRUD completo**:
 ### 1️⃣ GENERO_CATALOGO
 
 **📮 En Postman:**
+
 1. Abrir carpeta: **`Géneros`** → **`Crear Género`**
 2. En el **Body** (JSON), puedes enviar **uno o múltiples**:
 
 **Opción 1: Insertar uno solo**
+
 ```json
 {
   "genero": "M",
@@ -123,6 +125,7 @@ La colección tiene **15 carpetas** (una por tabla) con **CRUD completo**:
 ```
 
 **Opción 2: Insertar múltiples a la vez** ⚡
+
 ```json
 [
   {"genero": "M", "descripcion_genero": "Masculino"},
@@ -133,6 +136,7 @@ La colección tiene **15 carpetas** (una por tabla) con **CRUD completo**:
 3. Click en **Send**
 
 **Campos requeridos:**
+
 - `genero` (VARCHAR2, 1 carácter: 'M' o 'F')
 - `descripcion_genero` (VARCHAR2, 255 caracteres)
 
@@ -150,6 +154,7 @@ curl -X POST http://localhost:3000/api/genero_catalogo \
   -H "Content-Type: application/json" \
   -d '{"GENERO": "F", "NOMBRE_GENERO": "Femenino"}'
 ```
+
 </details>
 
 ---
@@ -157,10 +162,12 @@ curl -X POST http://localhost:3000/api/genero_catalogo \
 ### 2️⃣ TIPO_LICENCIA
 
 **📮 En Postman:**
+
 1. Abrir carpeta: **`Tipos de Licencia`** → **`Crear Tipos de Licencia`**
 2. Puedes crear **uno o múltiples**:
 
 **Opción 1: Insertar uno solo**
+
 ```json
 {
   "tipo_licencia": "A",
@@ -169,6 +176,7 @@ curl -X POST http://localhost:3000/api/genero_catalogo \
 ```
 
 **Opción 2: Insertar múltiples a la vez** ⚡
+
 ```json
 [
   {"tipo_licencia": "A", "descripcion_licencia": "Motocicleta"},
@@ -179,6 +187,7 @@ curl -X POST http://localhost:3000/api/genero_catalogo \
 ```
 
 **Campos requeridos:**
+
 - `tipo_licencia` (VARCHAR2, 50 caracteres)
 - `descripcion_licencia` (VARCHAR2, 255 caracteres)
 
@@ -194,6 +203,7 @@ curl -X POST http://localhost:3000/api/tipo_licencia \
 # Ver todas
 curl http://localhost:3000/api/tipo_licencia | jq '.'
 ```
+
 </details>
 
 ---
@@ -201,10 +211,12 @@ curl http://localhost:3000/api/tipo_licencia | jq '.'
 ### 3️⃣ TIPO_TRAMITE
 
 **📮 En Postman:**
+
 1. Abrir carpeta: **`Tipos de Trámite`** → **`Crear Tipos de Trámite`**
 2. Puedes crear **uno o múltiples**:
 
 **Opción 1: Insertar uno solo**
+
 ```json
 {
   "tipo_tramite": "PRIMERA_VEZ",
@@ -213,6 +225,7 @@ curl http://localhost:3000/api/tipo_licencia | jq '.'
 ```
 
 **Opción 2: Insertar múltiples a la vez** ⚡
+
 ```json
 [
   {"tipo_tramite": "PRIMERA_VEZ", "descripcion_tramite": "Primera vez"},
@@ -223,6 +236,7 @@ curl http://localhost:3000/api/tipo_licencia | jq '.'
 ```
 
 **Campos requeridos:**
+
 - `tipo_tramite` (VARCHAR2, 50 caracteres)
 - `descripcion_tramite` (VARCHAR2, 255 caracteres)
 
@@ -238,6 +252,7 @@ curl -X POST http://localhost:3000/api/tipo_tramite \
 # Ver todos
 curl http://localhost:3000/api/tipo_tramite | jq '.'
 ```
+
 </details>
 
 ---
@@ -247,10 +262,12 @@ curl http://localhost:3000/api/tipo_tramite | jq '.'
 ### 4️⃣ DEPARTAMENTO
 
 **📮 En Postman:**
+
 1. Abrir carpeta: **`Departamentos`** → **`Crear Departamento`**
 2. **IMPORTANTE:** Ahora debes proporcionar el `id_departamento` manualmente
 
 **Opción 1: Insertar uno solo**
+
 ```json
 {
   "id_departamento": 1,
@@ -260,6 +277,7 @@ curl http://localhost:3000/api/tipo_tramite | jq '.'
 ```
 
 **Opción 2: Insertar múltiples a la vez** ⚡
+
 ```json
 [
   {"id_departamento": 1, "nombre_departamento": "Guatemala", "codigo_departamento": "01"},
@@ -270,6 +288,7 @@ curl http://localhost:3000/api/tipo_tramite | jq '.'
 ```
 
 **Campos requeridos:**
+
 - `id_departamento` (NUMBER, manual)
 - `nombre_departamento` (VARCHAR2, 100 caracteres)
 - `codigo_departamento` (VARCHAR2, 10 caracteres)
@@ -281,10 +300,12 @@ curl http://localhost:3000/api/tipo_tramite | jq '.'
 ⚠️ **Requiere:** `id_departamento` (usa los IDs del paso anterior)
 
 **📮 En Postman:**
+
 1. Abrir carpeta: **`Municipios`** → **`Crear Municipio`**
 2. **IMPORTANTE:** Debes proporcionar TODOS los campos manualmente
 
 **Opción 1: Insertar uno solo**
+
 ```json
 {
   "id_municipio": 1,
@@ -295,6 +316,7 @@ curl http://localhost:3000/api/tipo_tramite | jq '.'
 ```
 
 **Opción 2: Insertar múltiples a la vez** ⚡
+
 ```json
 [
   {"id_municipio": 1, "id_departamento": 1, "nombre_municipio": "Guatemala", "codigo_municipio": "01"},
@@ -306,6 +328,7 @@ curl http://localhost:3000/api/tipo_tramite | jq '.'
 ```
 
 **Campos requeridos:**
+
 - `id_municipio` (NUMBER, manual)
 - `id_departamento` (NUMBER, FK)
 - `nombre_municipio` (VARCHAR2, 100 caracteres)
@@ -318,10 +341,12 @@ curl http://localhost:3000/api/tipo_tramite | jq '.'
 ### 6️⃣ ESCUELA
 
 **📮 En Postman:**
+
 1. Abrir carpeta: **`Escuelas`** → **`Crear Escuela`**
 2. **IMPORTANTE:** Proporciona TODOS los campos manualmente
 
 **Opción 1: Insertar una sola**
+
 ```json
 {
   "id_escuela": 1,
@@ -332,6 +357,7 @@ curl http://localhost:3000/api/tipo_tramite | jq '.'
 ```
 
 **Opción 2: Insertar múltiples a la vez** ⚡
+
 ```json
 [
   {"id_escuela": 1, "nombre_escuela": "Escuela de Manejo Profesional", "direccion_escuela": "6ta Avenida 5-20, Zona 10", "numero_acuerdo": "ACUERDO-001-2024"},
@@ -341,6 +367,7 @@ curl http://localhost:3000/api/tipo_tramite | jq '.'
 ```
 
 **Campos requeridos:**
+
 - `id_escuela` (NUMBER, manual)
 - `nombre_escuela` (VARCHAR2, 100 caracteres)
 - `direccion_escuela` (VARCHAR2, 255 caracteres)
@@ -351,10 +378,12 @@ curl http://localhost:3000/api/tipo_tramite | jq '.'
 ### 7️⃣ CENTRO
 
 **📮 En Postman:**
+
 1. Abrir carpeta: **`Centros`** → **`Crear Centro`**
 2. **IMPORTANTE:** Proporciona TODOS los campos manualmente
 
 **Opción 1: Insertar uno solo**
+
 ```json
 {
   "id_centro": 1,
@@ -363,6 +392,7 @@ curl http://localhost:3000/api/tipo_tramite | jq '.'
 ```
 
 **Opción 2: Insertar múltiples a la vez** ⚡
+
 ```json
 [
   {"id_centro": 1, "nombre_centro": "Centro de Evaluación Central"},
@@ -372,6 +402,7 @@ curl http://localhost:3000/api/tipo_tramite | jq '.'
 ```
 
 **Campos requeridos:**
+
 - `id_centro` (NUMBER, manual)
 - `nombre_centro` (VARCHAR2, 100 caracteres)
 
@@ -382,12 +413,14 @@ curl http://localhost:3000/api/tipo_tramite | jq '.'
 ⚠️ **Requiere:** `ID_MUNICIPIO` (obtén los IDs del NIVEL 2)
 
 **📮 En Postman:**
+
 1. Primero, **obtener IDs:** Carpeta **`Municipios`** → **`Listar Municipios`** (GET)
 2. Anotar los `ID_MUNICIPIO` que necesites
 3. Abrir carpeta: **`Ubicaciones`** → **`Crear Ubicacione`**
 4. Crear ubicaciones usando los IDs obtenidos:
 
 **Ubicación 1 - Zona 10 Guatemala (usar ID_MUNICIPIO = 1):**
+
 ```json
 {
   "SEDE": "Sede Central - Zona 10",
@@ -397,6 +430,7 @@ curl http://localhost:3000/api/tipo_tramite | jq '.'
 ```
 
 **Ubicación 2 - Zona 9 Guatemala (usar ID_MUNICIPIO = 1):**
+
 ```json
 {
   "SEDE": "Sede Zona 9",
@@ -406,6 +440,7 @@ curl http://localhost:3000/api/tipo_tramite | jq '.'
 ```
 
 **Ubicación 3 - Mixco (usar ID_MUNICIPIO = 2):**
+
 ```json
 {
   "SEDE": "Sede Mixco",
@@ -415,6 +450,7 @@ curl http://localhost:3000/api/tipo_tramite | jq '.'
 ```
 
 **Ubicación 4 - Quetzaltenango (usar ID_MUNICIPIO = 5):**
+
 ```json
 {
   "SEDE": "Sede Quetzaltenango",
@@ -424,11 +460,13 @@ curl http://localhost:3000/api/tipo_tramite | jq '.'
 ```
 
 **Campos requeridos:**
+
 - `SEDE` (VARCHAR2, 100 caracteres)
 - `DIRECCION` (VARCHAR2, 255 caracteres)
 - `ID_MUNICIPIO` (NUMBER, FK)
 
 **Campo auto-generado:**
+
 - `ID_UBICACION` (NUMBER, secuencia)
 
 > 💡 **Importante:** Guarda los `ID_UBICACION` generados. Los necesitarás para crear exámenes.
@@ -440,10 +478,12 @@ curl http://localhost:3000/api/tipo_tramite | jq '.'
 ### 9️⃣ PREGUNTA
 
 **📮 En Postman:**
+
 1. Abrir carpeta: **`Preguntas Teóricas`** → **`Crear Preguntas Teórica`**
 2. **IMPORTANTE:** Proporciona TODOS los campos manualmente incluyendo `id_pregunta`
 
 **Opción 1: Insertar una sola**
+
 ```json
 {
   "id_pregunta": 1,
@@ -457,6 +497,7 @@ curl http://localhost:3000/api/tipo_tramite | jq '.'
 ```
 
 **Opción 2: Insertar múltiples a la vez** ⚡
+
 ```json
 [
   {"id_pregunta": 1, "pregunta_texto": "¿Cuál es la velocidad máxima en zona urbana?", "opcion_1": "40 km/h", "opcion_2": "60 km/h", "opcion_3": "80 km/h", "opcion_4": "100 km/h", "respuesta_correcta": 2},
@@ -466,6 +507,7 @@ curl http://localhost:3000/api/tipo_tramite | jq '.'
 ```
 
 **Campos requeridos:**
+
 - `id_pregunta` (NUMBER, manual)
 - `pregunta_texto` (CLOB)
 - `opcion_1` (VARCHAR2, 255)
@@ -479,10 +521,12 @@ curl http://localhost:3000/api/tipo_tramite | jq '.'
 ### 🔟 PREGUNTA_PRACTICO
 
 **📮 En Postman:**
+
 1. Abrir carpeta: **`Preguntas Prácticas`** → **`Crear Preguntas Práctica`**
 2. **IMPORTANTE:** Proporciona TODOS los campos manualmente
 
 **Opción 1: Insertar una sola**
+
 ```json
 {
   "id_pregunta_practico": 1,
@@ -492,6 +536,7 @@ curl http://localhost:3000/api/tipo_tramite | jq '.'
 ```
 
 **Opción 2: Insertar múltiples a la vez** ⚡
+
 ```json
 [
   {"id_pregunta_practico": 1, "titulo_pregunta": "Estacionamiento en Paralelo", "descripcion_pregunta": "Estacionar entre dos obstáculos"},
@@ -503,6 +548,7 @@ curl http://localhost:3000/api/tipo_tramite | jq '.'
 ```
 
 **Campos requeridos:**
+
 - `id_pregunta_practico` (NUMBER, manual)
 - `titulo_pregunta` (VARCHAR2, 255)
 - `descripcion_pregunta` (VARCHAR2, 500)
@@ -512,6 +558,7 @@ curl http://localhost:3000/api/tipo_tramite | jq '.'
 ## 📝 NIVEL 5: Registros y Evaluaciones (ÚLTIMO)
 
 ⚠️ **IMPORTANTE:** Este nivel depende de TODAS las tablas anteriores. Asegúrate de tener datos en:
+
 - ESCUELA
 - TIPO_TRAMITE
 - TIPO_LICENCIA
@@ -523,6 +570,7 @@ curl http://localhost:3000/api/tipo_tramite | jq '.'
 ⚠️ **Requiere múltiples Foreign Keys**
 
 **📮 En Postman:**
+
 1. Abrir carpeta: **`Registros`** → **`Crear Registro`**
 2. Los registros usan **auto-generación de ID**, solo proporciona los datos:
 
@@ -549,6 +597,7 @@ curl http://localhost:3000/api/tipo_tramite | jq '.'
 ⚠️ **Requiere:** `id_registro` y otros IDs
 
 **📮 En Postman:**
+
 1. Abrir carpeta: **`Exámenes`** → **`Crear Exámene`**
 2. Los exámenes usan **auto-generación de ID**:
 
@@ -572,14 +621,17 @@ curl http://localhost:3000/api/tipo_tramite | jq '.'
 ⚠️ **Requiere:** `ID_EXAMEN` y `ID_PREGUNTA`
 
 **📮 En Postman - Paso 1: Obtener IDs:**
+
 1. **`Exámenes`** → **`Listar Exámenes`** (GET) - Anotar `ID_EXAMEN`
 2. **`Preguntas Teóricas`** → **`Listar Preguntas Teóricas`** (GET) - Anotar `ID_PREGUNTA`
 
 **📮 Paso 2: Registrar Respuesta:**
+
 1. Abrir carpeta: **`Respuestas Usuario`** → **`Crear Respuestas Usuario`**
 2. Usar este JSON ajustando los IDs:
 
 **Respuesta ejemplo:**
+
 ```json
 {
   "ID_EXAMEN": 1,
@@ -589,11 +641,13 @@ curl http://localhost:3000/api/tipo_tramite | jq '.'
 ```
 
 **Campos requeridos:**
+
 - `ID_EXAMEN` (NUMBER, FK)
 - `ID_PREGUNTA` (NUMBER, FK)
 - `RESPUESTA_SELECCIONADA` (VARCHAR2, 1: 'A', 'B', 'C' o 'D')
 
 **Campo auto-generado:**
+
 - `ID_RESPUESTA` (NUMBER, secuencia)
 
 ---
@@ -603,14 +657,17 @@ curl http://localhost:3000/api/tipo_tramite | jq '.'
 ⚠️ **Requiere:** `ID_EXAMEN` y `ID_PREGUNTA_PRACTICO`
 
 **📮 En Postman - Paso 1: Obtener IDs:**
+
 1. **`Exámenes`** → **`Listar Exámenes`** (GET) - Anotar `ID_EXAMEN`
 2. **`Preguntas Prácticas`** → **`Listar Preguntas Prácticas`** (GET) - Anotar `ID_PREGUNTA_PRACTICO`
 
 **📮 Paso 2: Registrar Calificación:**
+
 1. Abrir carpeta: **`Respuestas Práctico`** → **`Crear Respuestas Práctico`**
 2. Usar este JSON ajustando los IDs:
 
 **Calificación ejemplo:**
+
 ```json
 {
   "ID_EXAMEN": 1,
@@ -620,11 +677,13 @@ curl http://localhost:3000/api/tipo_tramite | jq '.'
 ```
 
 **Campos requeridos:**
+
 - `ID_EXAMEN` (NUMBER, FK)
 - `ID_PREGUNTA_PRACTICO` (NUMBER, FK)
 - `CALIFICACION` (NUMBER, 0-100)
 
 **Campo auto-generado:**
+
 - `ID_RESPUESTA_PRACTICO` (NUMBER, secuencia)
 
 ---
@@ -633,22 +692,22 @@ curl http://localhost:3000/api/tipo_tramite | jq '.'
 
 <div align="center">
 
-| Paso | Tabla | Dependencias | Estado |
-|:----:|-------|--------------|:------:|
-| 1 | ✅ GENERO_CATALOGO | Ninguna | ⬜ |
-| 2 | ✅ TIPO_LICENCIA | Ninguna | ⬜ |
-| 3 | ✅ TIPO_TRAMITE | Ninguna | ⬜ |
-| 4 | ✅ DEPARTAMENTO | Ninguna | ⬜ |
-| 5 | ✅ MUNICIPIO | DEPARTAMENTO | ⬜ |
-| 6 | ✅ ESCUELA | Ninguna | ⬜ |
-| 7 | ✅ CENTRO | Ninguna | ⬜ |
-| 8 | ✅ UBICACION | MUNICIPIO | ⬜ |
-| 9 | ✅ PREGUNTA | TIPO_LICENCIA | ⬜ |
-| 10 | ✅ PREGUNTA_PRACTICO | Ninguna | ⬜ |
-| 11 | ✅ REGISTRO | Múltiples | ⬜ |
-| 12 | ✅ EXAMEN | REGISTRO, UBICACION | ⬜ |
-| 13 | ✅ RESPUESTA_USUARIO | EXAMEN, PREGUNTA | ⬜ |
-| 14 | ✅ RESPUESTA_PRACTICO_USUARIO | EXAMEN, PREGUNTA_PRACTICO | ⬜ |
+| Paso | Tabla                         | Dependencias              | Estado |
+| :--: | ----------------------------- | ------------------------- | :----: |
+|  1  | ✅ GENERO_CATALOGO            | Ninguna                   |   ⬜   |
+|  2  | ✅ TIPO_LICENCIA              | Ninguna                   |   ⬜   |
+|  3  | ✅ TIPO_TRAMITE               | Ninguna                   |   ⬜   |
+|  4  | ✅ DEPARTAMENTO               | Ninguna                   |   ⬜   |
+|  5  | ✅ MUNICIPIO                  | DEPARTAMENTO              |   ⬜   |
+|  6  | ✅ ESCUELA                    | Ninguna                   |   ⬜   |
+|  7  | ✅ CENTRO                     | Ninguna                   |   ⬜   |
+|  8  | ✅ UBICACION                  | MUNICIPIO                 |   ⬜   |
+|  9  | ✅ PREGUNTA                   | TIPO_LICENCIA             |   ⬜   |
+|  10  | ✅ PREGUNTA_PRACTICO          | Ninguna                   |   ⬜   |
+|  11  | ✅ REGISTRO                   | Múltiples                |   ⬜   |
+|  12  | ✅ EXAMEN                     | REGISTRO, UBICACION       |   ⬜   |
+|  13  | ✅ RESPUESTA_USUARIO          | EXAMEN, PREGUNTA          |   ⬜   |
+|  14  | ✅ RESPUESTA_PRACTICO_USUARIO | EXAMEN, PREGUNTA_PRACTICO |   ⬜   |
 
 </div>
 
@@ -686,6 +745,7 @@ Ejemplo: GET http://localhost:3000/api/departamento/1
 ```
 
 **Response esperado:**
+
 ```json
 {
   "success": true,
@@ -702,13 +762,13 @@ Ejemplo: GET http://localhost:3000/api/departamento/1
 
 <div align="center">
 
-| Error | Causa | Solución |
-|-------|-------|----------|
-| `ORA-02291: integrity constraint violated` | Foreign Key no existe | Inserta primero la tabla padre |
-| `ORA-00001: unique constraint violated` | Clave primaria duplicada | Verifica que el registro no exista |
-| `ORA-01400: cannot insert NULL` | Campo requerido vacío | Proporciona todos los campos obligatorios |
-| `Connection refused` | API no está corriendo | Ejecuta `./scripts/start.sh` |
-| `404 Not Found` | Endpoint incorrecto | Verifica la ruta de la API |
+| Error                                        | Causa                    | Solución                                 |
+| -------------------------------------------- | ------------------------ | ----------------------------------------- |
+| `ORA-02291: integrity constraint violated` | Foreign Key no existe    | Inserta primero la tabla padre            |
+| `ORA-00001: unique constraint violated`    | Clave primaria duplicada | Verifica que el registro no exista        |
+| `ORA-01400: cannot insert NULL`            | Campo requerido vacío   | Proporciona todos los campos obligatorios |
+| `Connection refused`                       | API no está corriendo   | Ejecuta `./scripts/start.sh`            |
+| `404 Not Found`                            | Endpoint incorrecto      | Verifica la ruta de la API                |
 
 </div>
 
@@ -731,6 +791,7 @@ Ejemplo: GET http://localhost:3000/api/departamento/1
 *Listar los géneros mediante POST request*
 
 **Response:**
+
 ```json
 {
     "success": true,
@@ -757,6 +818,7 @@ Ejemplo: GET http://localhost:3000/api/departamento/1
 *Inserción de departamento Guatemala*
 
 **Request:**
+
 ```json
 POST http://localhost:3000/api/departamento
 {
@@ -767,6 +829,7 @@ POST http://localhost:3000/api/departamento
 ```
 
 **Response:**
+
 ```json
 {
     "success": true,
@@ -789,11 +852,13 @@ POST http://localhost:3000/api/departamento
 *Consulta de todos los departamentos registrados*
 
 **Request:**
+
 ```
 GET http://localhost:3000/api/departamento
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -823,6 +888,7 @@ GET http://localhost:3000/api/departamento
 *Inserción de municipio con ID_DEPARTAMENTO (Foreign Key)*
 
 **Request:**
+
 ```json
 POST http://localhost:3000/api/municipio
 {
@@ -832,6 +898,7 @@ POST http://localhost:3000/api/municipio
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -853,6 +920,7 @@ POST http://localhost:3000/api/municipio
 *Error al intentar crear MUNICIPIO sin DEPARTAMENTO existente*
 
 **Request (Incorrecto):**
+
 ```json
 POST http://localhost:3000/api/municipio
 {
@@ -862,6 +930,7 @@ POST http://localhost:3000/api/municipio
 ```
 
 **Response (Error):**
+
 ```json
 {
   "success": false,
@@ -881,6 +950,7 @@ POST http://localhost:3000/api/municipio
 *Inserción de pregunta para examen teórico*
 
 **Request:**
+
 ```json
 POST http://localhost:3000/api/pregunta
 {
@@ -903,6 +973,7 @@ POST http://localhost:3000/api/pregunta
 *Inserción de registro de usuario con múltiples Foreign Keys*
 
 **Request:**
+
 ```json
 POST http://localhost:3000/api/registro
 {
@@ -931,6 +1002,7 @@ POST http://localhost:3000/api/registro
 *Visualización de datos insertados en DBeaver*
 
 **Consulta SQL:**
+
 ```sql
 SELECT * FROM EVALUACION_MANEJO.DEPARTAMENTO;
 SELECT * FROM EVALUACION_MANEJO.MUNICIPIO;
@@ -945,11 +1017,13 @@ SELECT * FROM EVALUACION_MANEJO.MUNICIPIO;
 *Verificación de que la API está funcionando correctamente*
 
 **Request:**
+
 ```
 GET http://localhost:3000/health
 ```
 
 **Response:**
+
 ```json
 {
   "status": "OK",
@@ -968,6 +1042,7 @@ GET http://localhost:3000/health
 *Vista de la colección completa con 78 endpoints organizados por carpetas*
 
 **Estructura:**
+
 - 📁 GENERO_CATALOGO (4 endpoints)
 - 📁 TIPO_LICENCIA (5 endpoints)
 - 📁 TIPO_TRAMITE (5 endpoints)
@@ -981,7 +1056,7 @@ GET http://localhost:3000/health
 ### 📝 Notas sobre los Screenshots
 
 > **💡 Recomendación:** Los screenshots sirven como guía visual. Asegúrate de:
-> 
+>
 > - ✅ Usar tus propios datos reales
 > - ✅ Verificar que los IDs correspondan a tu base de datos
 > - ✅ Seguir el orden de dependencias documentado
@@ -1005,6 +1080,7 @@ Todos los endpoints ahora retornan información del contador:
 ```
 
 **Ventajas de inserción múltiple:**
+
 - ⚡ Más rápido (una sola petición HTTP)
 - 🎯 Menos propenso a errores
 - 📦 Carga masiva eficiente
@@ -1013,24 +1089,25 @@ Todos los endpoints ahora retornan información del contador:
 
 ## �📚 Documentación Relacionada
 
-| Documento | Descripción |
-|-----------|-------------|
+| Documento                             | Descripción                            |
+| ------------------------------------- | --------------------------------------- |
 | [GUIA_ENDPOINTS.md](./GUIA_ENDPOINTS.md) | Referencia completa de los 78 endpoints |
-| [GUIA_TESTING.md](./GUIA_TESTING.md) | Cómo probar la API con Postman |
-| [ARQUITECTURA.md](./ARQUITECTURA.md) | Arquitectura del sistema |
-| [README.md](../README.md) | Documentación principal |
+| [GUIA_TESTING.md](./GUIA_TESTING.md)     | Cómo probar la API con Postman         |
+| [ARQUITECTURA.md](./ARQUITECTURA.md)     | Arquitectura del sistema                |
+| [README.md](../README.md)                | Documentación principal                |
 
 ---
 
 ### 🎓 Universidad de San Carlos de Guatemala
-**Facultad de Ingeniería**  
-**Escuela de Ciencias y Sistemas**  
+
+**Facultad de Ingeniería**
+**Escuela de Ciencias y Sistemas**
 **Bases de Datos 1 - Sección B**
 
 ---
 
-**Desarrollado por:** Héctor Daniel Ortiz Osorio  
-**Carnet:** 202203806  
+**Desarrollado por:** Héctor Daniel Ortiz Osorio
+**Carnet:** 202203806
 **Repositorio:** [github.com/DaaNiieeL123/BD1B_2S2025_202203806](https://github.com/DaaNiieeL123/BD1B_2S2025_202203806)
 
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-blue?style=for-the-badge&logo=github)](https://github.com/DaaNiieeL123/BD1B_2S2025_202203806)

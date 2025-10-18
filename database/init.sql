@@ -132,7 +132,7 @@ CREATE TABLE tipo_tramite (
     tipo_tramite VARCHAR2(30) NOT NULL,
     descripcion_tramite VARCHAR2(100),
     CONSTRAINT pk_tipo_tramite PRIMARY KEY (tipo_tramite),
-    CONSTRAINT chk_tipo_tramite CHECK (tipo_tramite IN ('PRIMER_LICENCIA', 'TRASPASO'))
+    CONSTRAINT chk_tipo_tramite CHECK (tipo_tramite IN ('PRIMER_LICENCIA', 'TRASPASO', 'RENOVACION'))
 );
 
 COMMENT ON TABLE tipo_tramite IS 'Catalogo de tipos de tramite';
@@ -225,9 +225,9 @@ COMMENT ON TABLE pregunta IS 'Banco de preguntas teoricas con opciones multiples
 CREATE TABLE pregunta_practico (
     id_pregunta_practico NUMBER NOT NULL,
     pregunta_texto VARCHAR2(500) NOT NULL,
-    punteo_maximo NUMBER(2) DEFAULT 10 NOT NULL,
+    punteo_maximo NUMBER(3) DEFAULT 10 NOT NULL,
     CONSTRAINT pk_pregunta_practico PRIMARY KEY (id_pregunta_practico),
-    CONSTRAINT chk_punteo_maximo CHECK (punteo_maximo > 0 AND punteo_maximo <= 10)
+    CONSTRAINT chk_punteo_maximo CHECK (punteo_maximo > 0 AND punteo_maximo <= 100)
 );
 
 COMMENT ON TABLE pregunta_practico IS 'Procedimientos para evaluacion practica';
@@ -321,13 +321,13 @@ CREATE TABLE respuesta_practico_usuario (
     id_respuesta_practico NUMBER NOT NULL,
     id_pregunta_practico NUMBER NOT NULL,
     id_examen NUMBER NOT NULL,
-    nota_obtenida NUMBER(2) NOT NULL,
+    nota_obtenida NUMBER(3) NOT NULL,
     CONSTRAINT pk_respuesta_practico_usuario PRIMARY KEY (id_respuesta_practico),
     CONSTRAINT fk_respuesta_practico_pregunta FOREIGN KEY (id_pregunta_practico) 
         REFERENCES pregunta_practico(id_pregunta_practico),
     CONSTRAINT fk_respuesta_practico_examen FOREIGN KEY (id_examen) 
         REFERENCES examen(id_examen),
-    CONSTRAINT chk_nota_obtenida CHECK (nota_obtenida >= 0 AND nota_obtenida <= 10)
+    CONSTRAINT chk_nota_obtenida CHECK (nota_obtenida >= 0 AND nota_obtenida <= 100)
 );
 
 COMMENT ON TABLE respuesta_practico_usuario IS 'Calificaciones del usuario en examen practico';
